@@ -1,0 +1,11 @@
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\bin\Debug\netcoreapp2.0\ECommerceUpo.deps.json
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\bin\Debug\netcoreapp2.0\ECommerceUpo.runtimeconfig.json
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\bin\Debug\netcoreapp2.0\ECommerceUpo.runtimeconfig.dev.json
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\bin\Debug\netcoreapp2.0\ECommerceUpo.dll
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\bin\Debug\netcoreapp2.0\ECommerceUpo.pdb
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\obj\Debug\netcoreapp2.0\ECommerceUpo.csprojResolveAssemblyReference.cache
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\obj\Debug\netcoreapp2.0\ECommerceUpo.csproj.CoreCompileInputs.cache
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\obj\Debug\netcoreapp2.0\ECommerceUpo.AssemblyInfoInputs.cache
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\obj\Debug\netcoreapp2.0\ECommerceUpo.AssemblyInfo.cs
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\obj\Debug\netcoreapp2.0\ECommerceUpo.dll
+C:\Users\Andrea\Desktop\ECommerce\ECommerce\ECommerceUpo\ECommerceUpo\obj\Debug\netcoreapp2.0\ECommerceUpo.pdb
