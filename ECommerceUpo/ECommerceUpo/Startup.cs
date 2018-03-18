@@ -44,17 +44,33 @@ namespace ECommerceUpo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            //session
+            app.UseSession();
+            //app.UseIdentity();
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
+
             app.Run(async (context) =>
             {
-                await context.Response.WriteAsync("Hello World!");
+                await context.Response
+                .WriteAsync("<html>\n" +
+                                "<head>\n<title>NOT FOUND</title>\n" +
+                                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"./css/StyleSheet.css\">\n" +
+                                    "<link href=\"./styles/layout.css?v=1\" rel=\"stylesheet\"/>\n" +
+                                "</head>\n" +
+                                "<body>\n<div class=\"container\">\n<div class=\"main\">\n<h1>404 NOT FOUND</h1>\n</div>\n</div>\n</body>\n" +
+                            "</html>");
             });
         }
     }
-}
+    }
+
