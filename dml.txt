@@ -232,3 +232,163 @@ INSERT INTO [dbo].[User]
      VALUES
            ('john@gmail.com', 'ciao', 'admin')
 GO
+
+INSERT INTO [dbo].[Order]
+           ([UserId]
+           ,[data]
+           ,[totalPrice]
+           ,[state])
+     VALUES
+           (1
+           ,'2018-03-01'
+           ,'350'
+           ,'processed')
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (1
+           ,1
+           ,1)
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (1
+           ,2
+           ,1)
+GO
+
+INSERT INTO [dbo].[Order]
+           ([UserId]
+           ,[data]
+           ,[totalPrice]
+           ,[state])
+     VALUES
+           (1
+           ,'2018-03-01'
+           ,'55'
+           ,'processed')
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (2
+           ,3
+           ,1)
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (2
+           ,4
+           ,1)
+GO
+
+INSERT INTO [dbo].[Order]
+           ([UserId]
+           ,[data]
+           ,[totalPrice]
+           ,[state])
+     VALUES
+           (1
+           ,'2018-03-01'
+           ,'370'
+           ,'processed')
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (3
+           ,5
+           ,1)
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (3
+           ,6
+           ,1)
+GO
+
+INSERT INTO [dbo].[Order]
+           ([UserId]
+           ,[data]
+           ,[totalPrice]
+           ,[state])
+     VALUES
+           (1
+           ,'2018-03-01'
+           ,'185'
+           ,'processed')
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (4
+           ,7
+           ,1)
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (4
+           ,8
+           ,1)
+GO
+
+INSERT INTO [dbo].[Order]
+           ([UserId]
+           ,[data]
+           ,[totalPrice]
+           ,[state])
+     VALUES
+           (2
+           ,'2018-03-01'
+           ,'117'
+           ,'processed')
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (5
+           ,9
+           ,1)
+GO
+
+INSERT INTO [dbo].[OrderProduct]
+           ([OrderId]
+           ,[ProductId]
+           ,[Quantity])
+     VALUES
+           (5
+           ,10
+           ,1)
+GO

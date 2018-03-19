@@ -2,17 +2,75 @@
 
 @{
     ViewBag.Title = "INDEX PAGE";
-
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
 
 <div class="container">
 
     <div class="main">
         <h1>
-            HomePage
+            <!-- Messaggio registrazione completata -->
+            @TempData["LoginMsg"]
         </h1>
 
-       
+        <h1>Top 10 Prodotti pi&#249; venduti</h1>
+
+        <!-- Tabella dei prodotti top 10 venduti nel mese -->
+        <div class="tables">
+            @foreach (var s in Model)
+            {
+                <table class="big">
+                    <tr>
+                        <td colspan="4">
+                            <section class="cards clearfix">
+                                <div class="card">
+                                    @if (s.Image != null)
+                                    {
+                                        <img class="card__image" src="data:image;base64,@System.Convert.ToBase64String(s.Image)"
+                                             width="200" height="200" />
+                                    }
+                                    else
+                                    {
+                                        <img class="card__image" src="~/img/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
+                                    }
+                                    <div class="card__copy">
+                                        @Html.ActionLink(s.Title, "Detail", "Prodotto", new { s.ProductId }, new { @class = "linkprod" })
+                                    </div>
+                                </div>
+                            </section>
+
+                        </td>
+                    </tr>
+                    
+
+                    <!-- se user (o nessuno) -> pulsanti aggiungi al carrello; se admin -> nessun pulsante
+                        (admin puo' modificare i prodotti in /Prodotto/Advanced)-->
+                    @if ((role == null) || ((role != null) && role.Equals("user")))
+                    {
+                        <tr>
+                            <td colspan="4">
+                                @if (s.Disp.Equals("si"))
+                                {
+                                    @using (Html.BeginForm("Add", "Carrello", FormMethod.Post))
+                                    {
+                                        <fieldset>
+                                            <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
+                                            <input type="number" name="qta" id="qta" min="1" value="1" />
+                                            <input type="submit" value="Aggiungi al carrello" />
+                                        </fieldset>
+                                    }
+                                }
+                                else
+                                {
+                                    <b>Il prodotto non &eacute; disponibile!!!</b>
+
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
 
     </div>
 </div>

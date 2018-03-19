@@ -1,0 +1,122 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Upo e-Commerce - DETTAGLIO PRODOTTO";
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
+}
+
+<div class="container">
+    <div class="main">
+        <h1>Dettaglio Prodotto</h1>
+
+        <!-- "Tabella" dettaglio prodotto -->
+        <div class="tables">
+            @foreach (var s in Model)
+            {
+                <table class="big">
+                    <tr>
+                        <td colspan="4">
+                            @if (s.Image != null)
+                            {
+                                <img src="data:image;base64,@System.Convert.ToBase64String(s.Image)"
+                                     width="200" height="200" />
+                            }
+                            else
+                            {
+                                <img src="~/img/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            @s.Title
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Prezzo
+                        </td>
+                        <td></td>
+                        <td>
+                            Sconto
+                        </td>
+                        <td>
+                            Disponibile
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @if (s.Discount > 0)
+                            {
+                                <p style="text-decoration:line-through; text-decoration-color:red;">@s.Price &euro;</p>
+
+                            }
+                            else
+                            {
+                                <p>@s.Price &euro;</p>
+
+                            }
+                        </td>
+                        <td>
+                            @if (s.Discount > 0)
+                            {
+                                <b>@(s.Price - s.Discount) &euro;</b>
+                            }
+                        </td>
+                        <td>
+                            @if (s.Discount > 0)
+                            {
+                                <i>@s.Discount &euro;</i>
+
+                            }
+                        </td>
+                        <td>
+                            @if (s.Disp.Equals("si"))
+                            {
+                                <b>&#x2714;</b>
+                            }
+                            else
+                            {
+                                <b>&#x2718;</b>
+                            }
+
+                        </td>
+                    </tr>
+                    <tr></tr>
+
+                    <!-- Pulsante aggiungi al carrello per user -->
+                    @if ((role == null) || ((role != null) && role.Equals("user")))
+                    {
+                        <tr>
+                            <td colspan="4">
+                                @if (s.Disp.Equals("si"))
+                                {
+                                    @using (Html.BeginForm("Add", "Carrello", FormMethod.Post))
+                                    {
+                                        <fieldset>
+                                            <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
+                                            <input type="number" name="qta" id="qta" min="0" value="1" />
+                                            <input type="submit" value="Aggiungi al carrello" />
+                                        </fieldset>
+                                    }
+                                }
+                                else
+                                {
+                                    <b>Il prodotto non &eacute; disponibile!!!</b>
+
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+                <div id="desc">
+                    <b id="tit">@s.Title</b><br /><br />
+                    @s.Description
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+
+
