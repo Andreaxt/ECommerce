@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<!-- Template generale per tutte le pagine -->
+<head>
+    <title>@ViewData["Title"]</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="~/css/style.css"> 
+
+    <!-- Icona schede -->
+    <link rel="shortcut icon" href="~/img/favicon.ico" />
+
+    <!-- Dropdown Button JavaScript -->
+    <script src="~/js/dropdown.js"></script>
+
+    <!-- Kendo UI combined JavaScript -->
+    <script src="~/js/kendo.all.min.js"></script>
+</head>
+<body>
+    <div class="menuhead">
+        @RenderSection("Top", required: false)
+    </div>
+    @RenderBody()
+
+    <div class="footer">
+        <h6> Copyright  Alice Santia' & Andrea Viviani  </h6>
+    </div>
+</body>
+</html>

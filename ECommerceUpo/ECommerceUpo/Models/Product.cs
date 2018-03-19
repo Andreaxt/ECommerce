@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceUpo.Models
 {
-    public class Product
+    public partial class Product
     {
         public Product()
         {

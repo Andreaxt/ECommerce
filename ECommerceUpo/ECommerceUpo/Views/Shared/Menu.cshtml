@@ -1,0 +1,104 @@
+@{
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    var email = HttpContextAccessor.HttpContext.Session.GetString("Email");
+}
+
+<!-- Menu' nella parte superiore -->
+
+<header class="header clearfix">
+    <ul class="header__menu">
+        <!--  Carrello: visualizza l'icona (e link) solo se loggati e user  -->
+        @if ((role == null) || (role != null && role.Equals("user")))
+        {
+            <li class="header__menu__item">
+                <a href="@Url.Action("Index","Carrello")"><img src="~/Image/cart.png" , alt="Carrello" height="25" width="30" /></a>
+            </li>
+        }
+        <li class="header__menu__item">
+            @Html.ActionLink("Home", "Index", "Home")
+        </li>
+        <li class="header__menu__item">
+            @Html.ActionLink("Offerte", "Index", "Offerta")
+        </li>
+        <li class="header__menu__item">
+            @Html.ActionLink("Prodotti", "Index", "Prodotto")
+        </li>
+
+        <!-- MENU' A TENDINA AREA PRIVATA  -->
+        @if (role != null)
+        {
+            <li class="dropdown">
+                <!-- Admin ha le 3 pagne di gestione -->
+                @if (role.Equals("admin"))
+            {
+            @Html.ActionLink(email, "Index", "PrivateHome", new { @class = "dropbtn" })
+
+            <ul class="dropdown-content">
+                <li>@Html.ActionLink("Gestione Utenti", "List", "Utente")</li>
+                <li>@Html.ActionLink("Gestione Prodotti", "List", "Prodotto")</li>
+                <li>@Html.ActionLink("Gestione Ordini", "List", "Ordine")</li>
+            </ul>
+            }
+            else if (role.Equals("user"))
+            {
+                <!-- User ha soltanto Ordini -->
+            @Html.ActionLink(email, "Index", "Ordine", new { @class = "dropbtn" })
+            <ul class="dropdown-content">
+                <li>@Html.ActionLink("Elenco Ordini", "Index", "Ordine")</li>
+            </ul>
+            }
+            </li>
+        }
+
+        <li class="header__menu__item">
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Ruolo") == null)
+        {
+        @Html.ActionLink("Registrati!", "Create", "Utente")
+        }
+        </li>
+
+        <li class="header__menu__item">
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Ruolo") == null)
+        {
+        @Html.ActionLink("Accedi", "Login", "Utente")
+        }
+        </li>
+        <li>
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Ruolo") != null)
+        {
+        @Html.ActionLink("Esci", "Logout", "Utente")
+        }
+        </li>
+
+    </ul>
+    </header>
+
+    <li>
+        @using (Html.BeginForm("Find", "Prodotto", FormMethod.Post))
+            {
+            <fieldset>
+                <input type="text" name="input" id="input" />
+                <input type="submit" id="find" value="Cerca fra i prodotti" />
+            </fieldset>
+        }
+    </li>
+    <li>
+        @Html.ActionLink("Ricerca Avanzata", "Advanced", "Prodotto")
+    </li>
+
+    </ul>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+        $(document).ready(function(){
+
+            $(".header__icon-bar").click(function(e){
+
+                $(".header__menu").toggleClass('is-open');
+                e.preventDefault();
+
+            });
+        });
+</script>
