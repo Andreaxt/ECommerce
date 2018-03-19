@@ -69,7 +69,7 @@ namespace ECommerceUpo.Controllers
         /*
          * Seleziona uno specifico prodotto e tutte le sue informazioni (codice prodotto nell'URL)
          */
-        public async Task<IActionResult> Detail(int productId)
+        public async Task<IActionResult> ProductDetails(int productId)
         {
             //prende il prodotto che ha codice corrispondente al parametro 
             var query = from products in Context.Product
@@ -83,7 +83,7 @@ namespace ECommerceUpo.Controllers
          * Seleziona l'insieme di prodotti il cui titolo o la cui descrizione contiene la stringa in input
          */
         [HttpPost]
-        public async Task<IActionResult> Find(string input)
+        public async Task<IActionResult> Search(string input)
         {
             var query = (from products in Context.Product
                          where products.Title.Contains(input) || products.Description.Contains(input)

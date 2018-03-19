@@ -5,6 +5,8 @@
     var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
 
+
+
 <div class="container">
 
     <div class="main">
@@ -17,60 +19,72 @@
 
         <!-- Tabella dei prodotti top 10 venduti nel mese -->
         <div class="tables">
+    <table class="big">
+        
             @foreach (var s in Model)
             {
-                <table class="big">
-                    <tr>
-                        <td colspan="4">
-                            <section class="cards clearfix">
-                                <div class="card">
-                                    @if (s.Image != null)
-                                    {
-                                        <img class="card__image" src="data:image;base64,@System.Convert.ToBase64String(s.Image)"
-                                             width="200" height="200" />
-                                    }
-                                    else
-                                    {
-                                        <img class="card__image" src="~/img/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
-                                    }
-                                    <div class="card__copy">
-                                        @Html.ActionLink(s.Title, "Detail", "Prodotto", new { s.ProductId }, new { @class = "linkprod" })
-                                    </div>
-                                </div>
-                            </section>
-
-                        </td>
-                    </tr>
-                    
-
-                    <!-- se user (o nessuno) -> pulsanti aggiungi al carrello; se admin -> nessun pulsante
-                        (admin puo' modificare i prodotti in /Prodotto/Advanced)-->
-                    @if ((role == null) || ((role != null) && role.Equals("user")))
-                    {
-                        <tr>
-                            <td colspan="4">
-                                @if (s.Disp.Equals("si"))
+                <tr>
+                    <td colspan="4">
+                        <section class="cards clearfix">
+                            <div class="card">
+                                @if (s.Image != null)
                                 {
-                                    @using (Html.BeginForm("Add", "Carrello", FormMethod.Post))
-                                    {
-                                        <fieldset>
-                                            <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
-                                            <input type="number" name="qta" id="qta" min="1" value="1" />
-                                            <input type="submit" value="Aggiungi al carrello" />
-                                        </fieldset>
-                                    }
+                                    <img class="card__image" src="data:image;base64,@System.Convert.ToBase64String(s.Image)"
+                                         width="200" height="200" />
                                 }
                                 else
                                 {
-                                    <b>Il prodotto non &eacute; disponibile!!!</b>
-
+                                    <img class="card__image" src="~/img/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
                                 }
-                            </td>
-                        </tr>
-                    }
-                </table>
+                                <div class="card__copy">
+                                    @Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })
+
+
+
+                                    @if ((role == null) || ((role != null) && role.Equals("user")))
+                                    {
+
+                                        @if (s.Disp.Equals("si"))
+                                        {
+                                            @using (Html.BeginForm("Add", "Carrello", FormMethod.Post))
+                                            {
+                                                <fieldset>
+                                                    <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
+                                                    <input type="number" name="qta" id="qta" min="1" value="1" />
+                                                    <input type="submit" value="Aggiungi al carrello" />
+                                                </fieldset>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <b>Il prodotto non &eacute; disponibile!!!</b>
+
+                                        }
+
+                                    }
+
+                                </div>
+                            </div>
+
+
+
+
+
+                        </section>
+                    </td>
+                </tr>
             }
-        </div>
+
+                
+
+
+                    <!-- se user (o nessuno) -> pulsanti aggiungi al carrello; se admin -> nessun pulsante
+                    (admin puo' modificare i prodotti in /Prodotto/Advanced)-->
+
+                </table>
+            </div>
 
     </div>
 </div>
+
+
