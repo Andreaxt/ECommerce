@@ -1,0 +1,234 @@
+DECLARE @ROOT VARCHAR(500) = 'C:\Users\Andrea\Desktop\ECommerce\ECommerce';
+DECLARE @SQL VARCHAR(MAX);
+
+
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Smart Watch''
+           ,''Moderno Smart Watch da polso multi funzione''
+           ,250
+           ,0
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/smartWatch.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Borsa Armani''
+           ,''Elegante borsa blu vernice.''
+           ,100
+           ,10
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/BorsaArmani.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Case Pc''
+           ,''Resistente case nero per pc fisso.''
+           ,50
+           ,0
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/CasePc.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Jelly Belly Caramelle''
+           ,''Caramelle tipo Jelly Bean.''
+           ,5
+           ,1
+           ,''no''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/jellyBelly.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Joystick Xbox''
+           ,''Controller per console Xbox 360 e XboxOne.''
+           ,70
+           ,10
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/JoystickXbox.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Roomba iRobot''
+           ,''Ultimo modello di Roomba con collegamento al cellulare.''
+           ,300
+           ,10
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/Roomba.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Samsung S9''
+           ,''Samsung S9 metallizzato, colore rosa.''
+           ,180
+           ,5
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/Samsung.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Sapone di Aleppo''
+           ,''Sapone naturale, delicato sulla pelle.''
+           ,10
+           ,0
+           ,''no''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/saponeAleppo.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Shampoo Garnier''
+           ,''Shampoo con estratto di avocado.''
+           ,7
+           ,0
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/Shampoo.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Tastiera RGB''
+           ,''Tastiera retro-illuminata a colori.''
+           ,120
+           ,10
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/TastieraRgb.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Tè Verde Matcha''
+           ,''Tè verde qualità giapponese matcha, di alto livello.''
+           ,20
+           ,3
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/TeVerde.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+SET @SQL = 'INSERT INTO [dbo].[Product]
+           ([title]
+           ,[description]
+           ,[price]
+           ,[discount]
+           ,[disp]
+		   ,[image])
+
+	SELECT ''Trolley Carpisa''
+           ,''Trolley grande, colore rosa con decorazioni.''
+           ,90
+           ,10
+           ,''si''
+		   , BulkColumn FROM Openrowset( Bulk ''' + @ROOT + '/ImmaginiProdotti/trolley.jpg'', Single_Blob) as image'
+
+EXEC(@SQL);
+
+
+
+INSERT INTO [dbo].[User]
+           ([email]
+           ,[password]
+		   ,[role])
+     VALUES
+           ('alice@gmail.com', 'ciao', 'user')
+GO
+
+INSERT INTO [dbo].[User]
+           ([email]
+           ,[password]
+		   ,[role])
+     VALUES
+           ('andrea@gmail.com', 'ciao', 'user')
+GO
+
+INSERT INTO [dbo].[User]
+           ([email]
+           ,[password]
+		   ,[role])
+     VALUES
+           ('john@gmail.com', 'ciao', 'admin')
+GO
