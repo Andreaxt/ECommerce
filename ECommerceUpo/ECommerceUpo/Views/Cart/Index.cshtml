@@ -1,0 +1,112 @@
+﻿@model IEnumerable<CartBean>
+
+@{
+    ViewData["Title"] = "Upo e-Commerce - CARRELLO";
+    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Ruolo");
+    double totale = 0;
+}
+
+<div class="container">
+    <div class="main">
+
+        <!-- Controllo ruoli: solo user o utente non loggato possono accedere al carrello-->
+        @if ((ruolo != null) && (ruolo.Equals("admin")))
+        {
+            <h1>Area riservata agli utenti!</h1>
+        }
+        else
+        {
+            <h1>Carrello</h1>
+
+            @if (Model.Count() == 0)
+            {
+                <div id="desc">
+                    <h2>Carrello Vuoto!</h2>
+                </div>
+            }
+            else
+            {
+            <!-- Tabella dei prodotti contenuti nel carrello -->
+                <div class="tables">
+                    <table class="carrello">
+                        <tr>
+                            <th></th>
+                            <th>Dati</th>
+                            <th>Prezzo</th>
+                            <th>Quantita'</th>
+                        </tr>
+
+                        @foreach (var s in Model)
+                    {
+
+                            <tr>
+                                <td>
+                                    @if (s.Image != null)
+                                    {
+                                        <img src="data:image;base64,@System.Convert.ToBase64String(s.Image)"
+                                             width="80" height="80" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/img/noimage.jpg" alt="NO IMAGE" width="80" height="80" />
+                                    }
+                                </td>
+                                <td>
+                                    <!-- link al dettaglio del prodotto -->
+                                    <b id="tit">@Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })</b>
+                                </td>
+                                <td>
+                                    @if (s.Discount > 0)
+                                    {
+                                        <b>@(s.Price - s.Discount) &euro;</b>
+                                    }
+                                    else
+                                    {
+                                        <p>@s.Price &euro;</p>
+
+                                    }
+                                </td>
+                                <td>
+                                    @s.Quantity
+                                </td>
+                                <td>
+                                    <!-- Form per la modifica della quantita' di un prodotto nel carrello -->
+                                    @using (Html.BeginForm("Update", "Carrello", FormMethod.Post))
+                                    {
+                                        <fieldset>
+                                            <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
+                                            <input type="number" name="qta" id="qta" min="0" value="1" />
+                                            <input type="submit" value="Modifica quantita'" />
+                                        </fieldset>
+                                    }
+                                </td>
+                                <td>
+                                    <!-- Form per la rimozione di un prodotto dal carrello -->
+                                    @using (Html.BeginForm("Remove", "Carrello", FormMethod.Post))
+                                    {
+                                        <fieldset>
+                                            <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
+                                            <input type="submit" value="Rimuovi dal carrello" />
+                                        </fieldset>
+                                    }
+
+                                </td>
+                            </tr>
+                            totale += (s.Price - s.Discount) * s.Quantity;
+
+                        }
+                    </table>
+                    <!-- Bottoni per acquisto o svuotamento carrello -->
+                    <div class="totale">
+                        <h3>TOTALE CARRELLO: @totale</h3>
+                        <input type="button" value="ACQUISTO" id="acquista"
+                               onclick="@("window.location.href='" + @Url.Action("Create", "Ordine") + "'");" />
+                        <input type="button" value="SVUOTA CARRELLO"
+                               onclick="@("window.location.href='" + @Url.Action("Empty", "Carrello") + "'");" />
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+

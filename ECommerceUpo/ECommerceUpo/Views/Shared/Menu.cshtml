@@ -6,12 +6,13 @@
 <!-- Menu' nella parte superiore -->
 
 <header class="header clearfix">
+    <a href="" class="header__Logo">ECommerceUPO</a>
     <ul class="header__menu">
         <!--  Carrello: visualizza l'icona (e link) solo se loggati e user  -->
         @if ((role == null) || (role != null && role.Equals("user")))
         {
             <li class="header__menu__item">
-                <a href="@Url.Action("Index","Carrello")"><img src="~/Image/cart.png" , alt="Carrello" height="25" width="30" /></a>
+                <a href="@Url.Action("Index","Cart")"><img src="~/Image/cart.png" , alt="Carrello" height="25" width="30" /></a>
             </li>
         }
         <li class="header__menu__item">
@@ -63,6 +64,7 @@
         @Html.ActionLink("Accedi", "Login", "Utente")
         }
         </li>
+      
         <li>
             @if (HttpContextAccessor.HttpContext.Session.GetString("Ruolo") != null)
         {
@@ -86,7 +88,7 @@
         @Html.ActionLink("Ricerca Avanzata", "Advanced", "Prodotto")
     </li>
 
-    </ul>
+    
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
