@@ -1,0 +1,35 @@
+﻿@{
+    //ViewData["Title"] = "Upo e-Commerce - PRIVATE HOME";
+    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+}
+
+<div class="container">
+    <div class="main">
+        <h1>Area Amministrazione</h1>
+
+        <!-- Controllo ruoli: solo admin puo' accedere ad Area Privata (amministrazione) -->
+        <!-- Area "privata" utente corrisponde soltanto all'elenco ordini -->
+        @if (ruolo == null)
+        {
+            <h1>Non sei loggato!</h1>
+        }
+        else if (ruolo.Equals("user"))
+        {
+            <h1>Area riservata agli amministratori!</h1>
+        }
+        else
+        {
+            <!-- Links alle pagine di gestione  -->
+            <div id="greybar"><br /><br /></div>
+            <div class="ph">
+                <div id="links">
+                    @Html.ActionLink("Gestione Utenti", "List", "User", null, new { @class = "linkprod" })
+                    <br /><br /><br />
+                    @Html.ActionLink("Gestione Prodotti", "List", "Product", null, new { @class = "linkprod" })
+                    <br /><br /><br />
+                    @Html.ActionLink("Gestione Ordini", "List", "Order", null, new { @class = "linkprod" })
+                </div>
+            </div>
+        }
+    </div>
+</div>

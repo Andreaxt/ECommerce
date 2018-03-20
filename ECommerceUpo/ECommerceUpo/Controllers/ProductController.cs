@@ -53,7 +53,7 @@ namespace ECommerceUpo.Controllers
                 await base.Update(ToUpdate);
             }
 
-            return Redirect("/Prodotto/List");
+            return Redirect("/Product/List");
         }
 
         /*

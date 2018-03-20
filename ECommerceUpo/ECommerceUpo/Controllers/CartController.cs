@@ -85,7 +85,7 @@ namespace ECommerceUpo.Controllers
             //salva carrello in session
             HttpContext.Session.SetObjectAsJson("Cart", newCart);
 
-            return Redirect("/Carrello/Index");
+            return Redirect("/Cart/Index");
         }
 
         /*
@@ -113,7 +113,7 @@ namespace ECommerceUpo.Controllers
                 HttpContext.Session.SetObjectAsJson("Cart", SessionCart);
             }
 
-            return Redirect("/Carrello/Index");
+            return Redirect("/Cart/Index");
         }
 
         /*
@@ -124,7 +124,7 @@ namespace ECommerceUpo.Controllers
         {
             HttpContext.Session.Remove("Cart");
 
-            return Redirect("/Carrello/Index");
+            return Redirect("/Cart/Index");
         }
 
         /*
@@ -170,7 +170,7 @@ namespace ECommerceUpo.Controllers
                 }
             }
 
-            return Redirect("/Carrello/Index");
+            return Redirect("/Cart/Index");
         }
     }
 }

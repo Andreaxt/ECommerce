@@ -1,22 +1,29 @@
 ﻿@model IEnumerable<Product>
-
 @{
-    ViewData["Title"] = "Upo e-Commerce - Search";
-    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    ViewData["Title"] = "GESTIONE PRODOTTI";
+    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
-
 <div class="container">
     <div class="main">
-        <h1>Risultato della ricerca</h1>
 
-        @if (Model.Count() == 0)
+        <!-- Controllo ruoli: solo admin puo' accedere all pagina di modifica dei prodotti -->
+        @if (ruolo == null)
         {
-            <h1>Non &eacute; stato trovato nessun prodotto</h1>
+            <h1>
+                Non sei loggato!<br /><br />
+                @Html.ActionLink("Login", "Login", "User")
+            </h1>
+        }
+        else if (ruolo.Equals("user"))
+        {
+            <h1>Area riservata agli amministratori!</h1>
         }
         else
         {
-            <!-- Tabella dei prodotti che matchano la ricerca (per Title / descrizione) -->
-            <div class="tables">
+            <h1>Gestione Prodotti</h1>
+
+            <!-- Tabella globale prodotti -->
+            <div class="tables" style="padding-top:10px">
                 @foreach (var s in Model)
                 {
                     <table class="big">
@@ -35,7 +42,7 @@
                         </tr>
                         <tr>
                             <td colspan="4">
-                                <!--Link al dettaglio prodotto  -->
+                                <!-- Link al dettaglio prodotto -->
                                 @Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })
                             </td>
                         </tr>
@@ -48,7 +55,7 @@
                                 Sconto
                             </td>
                             <td>
-                                Disp
+                                Disponibile
                             </td>
                         </tr>
                         <tr>
@@ -91,30 +98,37 @@
                         </tr>
                         <tr></tr>
 
-                        <!-- Form pulsante aggiungi al carrello per user -->
-                        @if ((role == null) || ((role != null) && role.Equals("user")))
-                        {
-                            <tr>
-                                <td colspan="4">
-                                    @if (s.Disp.Equals("si"))
-                                    {
-                                        @using (Html.BeginForm("Add", "Cart", FormMethod.Post))
-                                        {
-                                            <fieldset>
-                                                <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
-                                                <input type="number" name="qta" id="qta" min="0" value="1" />
-                                                <input type="submit" value="Aggiungi al carrello" />
-                                            </fieldset>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        <b>Il prodotto non &eacute; disponibile!!!</b>
+                        <tr>
+                            <td colspan="4">
 
-                                    }
-                                </td>
-                            </tr>
-                        }
+                                <!-- Form di modifica dei dati del prodotto -->
+                                @using (Html.BeginForm("Update", "Product", FormMethod.Post))
+                                {
+                                    <fieldset>
+
+                                        <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
+                                        <input type="number" name="prezzo" id="prezzo" min="0" />Prezzo<br />
+                                        <input type="number" name="sconto" id="sconto" min="0" />Sconto<br />
+                                        <select name="disponibile" id="disponibile">
+                                            @if (s.Disp.Equals("si"))
+                                            {
+                                                <option value="si" selected="selected">Disponibile</option>
+                                                <option value="no">no</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="si">si</option>
+                                                <option value="no" selected="selected">NON Disponibile</option>
+                                            }
+                                        </select>
+                                        <br />
+                                        <br />
+                                        <input type="submit" value="Modifica Prodotto" />
+                                    </fieldset>
+                                }
+                            </td>
+                        </tr>
+
                     </table>
                 }
             </div>

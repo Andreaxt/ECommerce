@@ -32,7 +32,7 @@
                 <!-- Admin ha le 3 pagne di gestione -->
                 @if (role.Equals("admin"))
             {
-            @Html.ActionLink(email, "Index", "PrivateHome", new { @class = "dropbtn" })
+            @Html.ActionLink(email, "Index", "HomeAdmin", new { @class = "dropbtn" })
 
             <ul class="dropdown-content">
                 <li>@Html.ActionLink("Gestione Utenti", "List", "User")</li>
@@ -43,7 +43,7 @@
             else if (role.Equals("user"))
             {
                 <!-- User ha soltanto Ordini -->
-            @Html.ActionLink(email, "Index", "Ordine", new { @class = "dropbtn" })
+            @Html.ActionLink(email, "Index", "Order", new { @class = "dropbtn" })
             <ul class="dropdown-content">
                 <li>@Html.ActionLink("Elenco Ordini", "Index", "Order")</li>
             </ul>
@@ -54,7 +54,7 @@
         <li class="header__menu__item">
             @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == null)
         {
-        @Html.ActionLink("Registrati!", "Create", "User")
+        @Html.ActionLink("Registrati", "Create", "User")
         }
         </li>
 
@@ -68,7 +68,7 @@
         @if (HttpContextAccessor.HttpContext.Session.GetString("Role") != null)
         {
         <li>      
-        @Html.ActionLink("Esci", "Logout", "User")
+        @Html.ActionLink("Logout", "Logout", "User")
         </li>
         }
 

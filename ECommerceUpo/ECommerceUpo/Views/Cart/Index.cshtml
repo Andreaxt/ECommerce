@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Upo e-Commerce - CARRELLO";
-    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Ruolo");
+    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
     double totale = 0;
 }
 
@@ -71,7 +71,7 @@
                                 </td>
                                 <td>
                                     <!-- Form per la modifica della quantita' di un prodotto nel carrello -->
-                                    @using (Html.BeginForm("Update", "Carrello", FormMethod.Post))
+                                    @using (Html.BeginForm("Update", "Cart", FormMethod.Post))
                                     {
                                         <fieldset>
                                             <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
@@ -82,7 +82,7 @@
                                 </td>
                                 <td>
                                     <!-- Form per la rimozione di un prodotto dal carrello -->
-                                    @using (Html.BeginForm("Remove", "Carrello", FormMethod.Post))
+                                    @using (Html.BeginForm("Remove", "Cart", FormMethod.Post))
                                     {
                                         <fieldset>
                                             <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
@@ -100,9 +100,9 @@
                     <div class="totale">
                         <h3>TOTALE CARRELLO: @totale</h3>
                         <input type="button" value="ACQUISTO" id="acquista"
-                               onclick="@("window.location.href='" + @Url.Action("Create", "Ordine") + "'");" />
+                               onclick="@("window.location.href='" + @Url.Action("Create", "Order") + "'");" />
                         <input type="button" value="SVUOTA CARRELLO"
-                               onclick="@("window.location.href='" + @Url.Action("Empty", "Carrello") + "'");" />
+                               onclick="@("window.location.href='" + @Url.Action("Empty", "Cart") + "'");" />
                     </div>
                 </div>
             }

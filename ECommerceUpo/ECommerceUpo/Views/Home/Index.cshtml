@@ -46,7 +46,7 @@
 
                                         @if (s.Disp.Equals("si"))
                                         {
-                                            @using (Html.BeginForm("Add", "Carrello", FormMethod.Post))
+                                            @using (Html.BeginForm("Add", "Cart", FormMethod.Post))
                                             {
                                                 <fieldset>
                                                     <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
