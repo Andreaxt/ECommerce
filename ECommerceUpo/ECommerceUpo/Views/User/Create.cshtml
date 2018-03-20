@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Upo e-Commerce - REGISTRAZIONE";
+    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+}
+
+<script type="text/javascript" src="~/js/validate.js"></script>
+
+<div class="container">
+    <div class="main">
+
+        <!-- Controllo ruoli: ci si puo' registrare solo se non si e' gia' loggati -->
+        @if (ruolo != null)
+        {
+            <h1>Sei gi&aacute; registrato!</h1>
+        }
+        else
+        {
+            <h1>Registra Nuovo Utente</h1>
+
+            <h1>
+                <!-- MESSAGGIO possibile login errata -->
+                @TempData["LoginMsg"]
+
+            </h1>
+
+            <!-- Form registrazione -->
+            <div class="form">
+                @using (Html.BeginForm("Create", "User", FormMethod.Post, new { @id = "form1" }))
+                {
+                    <fieldset>
+                        Username o e-mail
+                        <br />
+                        <input type="text" name="user" id="user" required />
+                        <br />
+                        <br />
+                        Password
+                        <br />
+                        <input type="password" name="pass" id="pass" required />
+                        <br />
+                        <br />
+                        Conferma Password
+                        <br />
+                        <input type="password" name="pass2" id="pass2" required />
+                        <br />
+                        <br />
+                        <br />
+                        <input type="submit" onclick="return validateUser();" value="Registra" />
+                    </fieldset>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="footer">
+        <h6>footer</h6>
+    </div>
+</div>

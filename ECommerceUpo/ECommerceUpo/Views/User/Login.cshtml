@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Upo e-Commerce - LOGIN";
+    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+}
+
+<div class="container">
+    <div class="main">
+        @if (ruolo != null)
+        {
+            <h1>Hai gi&aacute; effettuato l'accesso!</h1>
+        }
+        else
+        {
+            <h1>Login</h1>
+
+            <h1>
+                <!-- MESSAGGIO possibile login errata -->
+                @TempData["LoginMsg"]
+
+            </h1>
+
+            <!-- Form per il login -->
+            <div class="form">
+                @using (Html.BeginForm("Login", "User", FormMethod.Post))
+                {
+                    <fieldset>
+                        Username
+                        <br />
+                        <input type="text" name="user" id="user" required />
+                        <br />
+                        <br />
+                        Password
+                        <br />
+                        <input type="password" name="pass" id="pass" required />
+                        <br />
+                        <br />
+                        <br />
+                        <input type="submit" value="Log in" />
+
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        Oppure
+                        <br />
+                        <br />
+                        <input type="button" value="REGISTRATI"
+                               onclick="@("window.location.href='" + @Url.Action("Create", "User") + "'");" />
+
+                    </fieldset>
+                }
+
+            </div>
+        }
+    </div>
+
+    <div class="footer">
+        <h6>footer</h6>
+    </div>
+</div>

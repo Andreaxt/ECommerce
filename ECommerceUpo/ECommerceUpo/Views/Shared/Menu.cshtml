@@ -35,9 +35,9 @@
             @Html.ActionLink(email, "Index", "PrivateHome", new { @class = "dropbtn" })
 
             <ul class="dropdown-content">
-                <li>@Html.ActionLink("Gestione Utenti", "List", "Utente")</li>
-                <li>@Html.ActionLink("Gestione Prodotti", "List", "Prodotto")</li>
-                <li>@Html.ActionLink("Gestione Ordini", "List", "Ordine")</li>
+                <li>@Html.ActionLink("Gestione Utenti", "List", "User")</li>
+                <li>@Html.ActionLink("Gestione Prodotti", "List", "Product")</li>
+                <li>@Html.ActionLink("Gestione Ordini", "List", "Order")</li>
             </ul>
             }
             else if (role.Equals("user"))
@@ -45,32 +45,32 @@
                 <!-- User ha soltanto Ordini -->
             @Html.ActionLink(email, "Index", "Ordine", new { @class = "dropbtn" })
             <ul class="dropdown-content">
-                <li>@Html.ActionLink("Elenco Ordini", "Index", "Ordine")</li>
+                <li>@Html.ActionLink("Elenco Ordini", "Index", "Order")</li>
             </ul>
             }
             </li>
         }
 
         <li class="header__menu__item">
-            @if (HttpContextAccessor.HttpContext.Session.GetString("Ruolo") == null)
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == null)
         {
-        @Html.ActionLink("Registrati!", "Create", "Utente")
+        @Html.ActionLink("Registrati!", "Create", "User")
         }
         </li>
 
         <li class="header__menu__item">
-            @if (HttpContextAccessor.HttpContext.Session.GetString("Ruolo") == null)
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == null)
         {
-        @Html.ActionLink("Accedi", "Login", "Utente")
+        @Html.ActionLink("Accedi", "Login", "User")
         }
         </li>
-      
-        <li>
-            @if (HttpContextAccessor.HttpContext.Session.GetString("Ruolo") != null)
+
+        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") != null)
         {
-        @Html.ActionLink("Esci", "Logout", "Utente")
-        }
+        <li>      
+        @Html.ActionLink("Esci", "Logout", "User")
         </li>
+        }
 
     </ul>
     </header>
