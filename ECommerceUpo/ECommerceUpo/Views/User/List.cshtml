@@ -30,6 +30,48 @@
         else
         {
             <h1>Lista Utenti</h1>
+             <!--  Solo se model e' pieno, oppure filtro "sbagliato", ripropone il filtro  -->
+            @if (count || (!count && isFiltered.Equals("True")))
+            {
+                <!-- FILTRI -->
+                <input type="button" name="filter" value="Fitra" onclick="showDiv()" style="float:left;" />
+                <input type="button" name="filter" value="Chiudi" onClick="hide()" style="float:left;display:none;" id="topbarbtn" />
+                <div id="topbar">
+                    <h2><b>Filtra per...</b></h2><br /><br />
+                    @using (Html.BeginForm("List", "User", FormMethod.Get))
+                    {
+                        <fieldset>
+                            <table>
+                                <!-- Username -->
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td><b>Username</b></td>
+                                    <td><input type="text" name="username" /></td>
+                                </tr>
+                                <!-- Ruolo -->
+                                <tr>
+                                    <td><b>Ruolo</b></td>
+                                    <td>
+                                        <select name="ruolo">
+                                            <option value=""></option>
+                                            <option value="user">user</option>
+                                            <option value="admin">admin</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br /><br /><br />
+                            <input type="submit" value="Applica Filtro" id="acquista" />
+                            <input type="button" value="Pulisci Filtro"
+                                   onclick="@("window.location.href='" + @Url.Action("List", "User", new { clear = "clear" }) + "'");" />
+                        </fieldset>
+                    }
+                </div><br /><br /><br />
+            }
 
             @if (!count)
             {
@@ -37,6 +79,7 @@
                     <h2>Nessun Utente!</h2>
                 </div>
             }
+
             else
             {
                 <div class="tables">

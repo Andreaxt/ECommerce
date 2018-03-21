@@ -106,10 +106,10 @@
                                 {
                                     <fieldset>
 
-                                        <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
-                                        <input type="number" name="prezzo" id="prezzo" min="0" />Prezzo<br />
-                                        <input type="number" name="sconto" id="sconto" min="0" />Sconto<br />
-                                        <select name="disponibile" id="disponibile">
+                                        <input type="text" name="product" id="product" value="@s.ProductId" hidden />
+                                        <input type="number" name="price" id="price" min="0" />Prezzo<br />
+                                        <input type="number" name="discount" id="discount" min="0" />Sconto<br />
+                                        <select name="disp" id="disp">
                                             @if (s.Disp.Equals("si"))
                                             {
                                                 <option value="si" selected="selected">Disponibile</option>

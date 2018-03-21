@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using ECommerceUpo.Models;
 using Microsoft.AspNetCore.Http;
+using ECommerceUpo.Src;
 
 namespace ECommerceUpo.Controllers
 {
@@ -168,6 +169,9 @@ namespace ECommerceUpo.Controllers
             var Query = from utenti in Context.User
                         select utenti;
             bool filtered = false;
+
+            //FILTRO: custom IQueryable extension method
+            Query = Query.FilterUser(ref filtered, clear, username, ruolo);
 
             TempData["UtenteFilter"] = filtered.ToString();
             return View(Query.ToList());
