@@ -15,7 +15,7 @@
         }
         else
         {
-            <h1>Registra Nuovo Utente</h1>
+         
 
             <h1>
                 <!-- MESSAGGIO possibile login errata -->
@@ -24,34 +24,34 @@
             </h1>
 
             <!-- Form registrazione -->
-            <div class="form">
+            <div class="login__pagediv">
                 @using (Html.BeginForm("Create", "User", FormMethod.Post, new { @id = "form1" }))
                 {
                     <fieldset>
                         Username o e-mail
                         <br />
-                        <input type="text" name="user" id="user" required />
+                        <input type="text" name="user"  class="casella__user" id="user" required />
                         <br />
                         <br />
                         Password
                         <br />
-                        <input type="password" name="pass" id="pass" required />
+                        <input type="password" name="pass"  class="casella__user" id="pass" required />
                         <br />
                         <br />
                         Conferma Password
                         <br />
-                        <input type="password" name="pass2" id="pass2" required />
+                        <input type="password" name="pass2" id="pass2"  class="casella__user" required />
                         <br />
                         <br />
                         <br />
-                        <input type="submit" onclick="return validateUser();" value="Registra" />
+                        <input type="submit" class="botton__submit" onclick="return validateUser();" value="Registra" />
                     </fieldset>
                 }
             </div>
         }
     </div>
 
-    <div class="footer">
-        <h6>footer</h6>
-    </div>
+    <footer class="footer">
+      
+    </footer>
 </div>

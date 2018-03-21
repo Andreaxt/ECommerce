@@ -3,39 +3,35 @@
     var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
 
-<div class="container">
-    <div class="main">
+
         @if (ruolo != null)
         {
             <h1>Hai gi&aacute; effettuato l'accesso!</h1>
         }
         else
         {
-            <h1>Login</h1>
-
             <h1>
                 <!-- MESSAGGIO possibile login errata -->
                 @TempData["LoginMsg"]
 
             </h1>
-
-            <!-- Form per il login -->
-            <div class="form">
+          <!-- Form per il login -->
+            <div class="login__pagediv">
                 @using (Html.BeginForm("Login", "User", FormMethod.Post))
                 {
                     <fieldset>
                         Username
                         <br />
-                        <input type="text" name="user" id="user" required />
+                        <input type="text" name="user" class="casella__user" id="user" required />
                         <br />
                         <br />
                         Password
                         <br />
-                        <input type="password" name="pass" id="pass" required />
+                        <input type="password" name="pass" class="casella__user" id="pass" required />
                         <br />
                         <br />
                         <br />
-                        <input type="submit" value="Log in" />
+                        <input type="submit" class="botton__submit" value="Log in" />
 
                         <br />
                         <br />
@@ -45,7 +41,7 @@
                         Oppure
                         <br />
                         <br />
-                        <input type="button" value="REGISTRATI"
+                        <input type="button" class="botton__submit" value="REGISTRATI"
                                onclick="@("window.location.href='" + @Url.Action("Create", "User") + "'");" />
 
                     </fieldset>
@@ -53,9 +49,9 @@
 
             </div>
         }
-    </div>
+    
 
-    <div class="footer">
-        <h6>footer</h6>
-    </div>
-</div>
+  
+
+    <footer class="footer"></footer>
+

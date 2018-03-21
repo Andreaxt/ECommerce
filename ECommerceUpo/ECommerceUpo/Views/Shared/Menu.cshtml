@@ -6,8 +6,22 @@
 <!-- Menu' nella parte superiore -->
 
 <header class="header clearfix">
-    <a href="" class="header__Logo">ECommerceUPO</a>
+
+    <header__logo class="header__logo">ECommerceUPO <img src="~/Image/upoLogo.jpg" height="20" width="20" /></header__logo>
     <ul class="header__menu">
+
+        
+
+        <li class="header__menu__item">
+            @using (Html.BeginForm("Search", "Product", FormMethod.Post))
+            {
+                <fieldset>
+                    <input type="text" name="input" id="input" />
+                    <input type="submit" class="botton__search" id="find" value="Cerca fra i prodotti" />
+                </fieldset>
+            }
+        </li>
+
         <!--  Carrello: visualizza l'icona (e link) solo se loggati e user  -->
         @if ((role == null) || (role != null && role.Equals("user")))
         {
@@ -25,31 +39,7 @@
             @Html.ActionLink("Prodotti", "Index", "Product")
         </li>
 
-        <!-- MENU' A TENDINA AREA PRIVATA  -->
-        @if (role != null)
-        {
-            <li class="dropdown">
-                <!-- Admin ha le 3 pagne di gestione -->
-                @if (role.Equals("admin"))
-            {
-            @Html.ActionLink(email, "Index", "HomeAdmin", new { @class = "dropbtn" })
-
-            <ul class="dropdown-content">
-                <li>@Html.ActionLink("Gestione Utenti", "List", "User")</li>
-                <li>@Html.ActionLink("Gestione Prodotti", "List", "Product")</li>
-                <li>@Html.ActionLink("Gestione Ordini", "List", "Order")</li>
-            </ul>
-            }
-            else if (role.Equals("user"))
-            {
-                <!-- User ha soltanto Ordini -->
-            @Html.ActionLink(email, "Index", "Order", new { @class = "dropbtn" })
-            <ul class="dropdown-content">
-                <li>@Html.ActionLink("Elenco Ordini", "Index", "Order")</li>
-            </ul>
-            }
-            </li>
-        }
+     
 
         <li class="header__menu__item">
             @if (HttpContextAccessor.HttpContext.Session.GetString("Role") == null)
@@ -65,42 +55,69 @@
         }
         </li>
 
-        @if (HttpContextAccessor.HttpContext.Session.GetString("Role") != null)
+        <!---   -->
+
+        @if (role != null)
         {
-        <li>      
-        @Html.ActionLink("Logout", "Logout", "User")
-        </li>
+
+                <!-- Admin ha le 3 pagne di gestione -->
+            @if (role.Equals("admin"))
+                {
+             
+                <li class="header__menu__item">
+                    @Html.ActionLink("Gestione Utenti", "List", "User")
+                </li>
+                            <li class="header__menu__item">
+                                @Html.ActionLink("Gestione Prodotti", "List", "Product")
+                            </li>
+                            <li class="header__menu__item">
+                                @Html.ActionLink("Gestione Ordini", "List", "Order")
+                            </li>
+
+            }
+            else if (role.Equals("user"))
+            {
+                <!-- User ha soltanto Ordini -->
+                @Html.ActionLink(email, "Index", "Order", new { @class = "dropbtn" })
+
+                <li class="header__menu__item">
+                    @Html.ActionLink("Elenco Ordini", "Index", "Order")
+                </li>
+
+            }
+
+
+
+            @if (HttpContextAccessor.HttpContext.Session.GetString("Role") != null)
+            {
+
+                <li class="header__menu__item">
+                    @Html.ActionLink("Logout", "Logout", "User")
+                </li>
+
+            }
         }
+
 
     </ul>
     </header>
 
-    <li>
-        @using (Html.BeginForm("Search", "Product", FormMethod.Post))
-            {
-            <fieldset>
-                <input type="text" name="input" id="input" />
-                <input type="submit" id="find" value="Cerca fra i prodotti" />
-            </fieldset>
-        }
-    </li>
-    <li>
-        @Html.ActionLink("Ricerca Avanzata", "Advanced", "Prodotto")
-    </li>
-
-    
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-<script>
-        $(document).ready(function(){
 
-            $(".header__icon-bar").click(function(e){
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $(".header__icon-bar").click(function (e) {
 
                 $(".header__menu").toggleClass('is-open');
                 e.preventDefault();
 
             });
         });
-</script>
+    </script>
