@@ -27,13 +27,15 @@
             else
             {
             <!-- Tabella dei prodotti contenuti nel carrello -->
-                <div class="tables">
-                    <table class="carrello">
+                <div class="table">
+                    <table class="table">
                         <tr>
                             <th></th>
                             <th>Dati</th>
                             <th>Prezzo</th>
                             <th>Quantita'</th>
+                            <th>Modifica la quantita'</th>
+                            <th>Rimuovi dal carrello</th>
                         </tr>
 
                         @foreach (var s in Model)
@@ -76,7 +78,7 @@
                                         <fieldset>
                                             <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
                                             <input type="number" name="qta" id="qta" min="0" value="1" />
-                                            <input type="submit" value="Modifica quantita'" />
+                                            <input type="submit" class="botton__search" value="Modifica quantita'" />
                                         </fieldset>
                                     }
                                 </td>
@@ -86,7 +88,7 @@
                                     {
                                         <fieldset>
                                             <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
-                                            <input type="submit" value="Rimuovi dal carrello" />
+                                            <input type="submit" class="botton__search" value="Rimuovi dal carrello" />
                                         </fieldset>
                                     }
 
@@ -99,9 +101,9 @@
                     <!-- Bottoni per acquisto o svuotamento carrello -->
                     <div class="totale">
                         <h3>TOTALE CARRELLO: @totale</h3>
-                        <input type="button" value="ACQUISTO" id="acquista"
+                        <input type="button" class="botton__search" value="ACQUISTO" id="acquista"
                                onclick="@("window.location.href='" + @Url.Action("Create", "Order") + "'");" />
-                        <input type="button" value="SVUOTA CARRELLO"
+                        <input type="button" class="botton__search" value="SVUOTA CARRELLO"
                                onclick="@("window.location.href='" + @Url.Action("Empty", "Cart") + "'");" />
                     </div>
                 </div>

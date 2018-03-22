@@ -34,14 +34,12 @@
             @if (count || (!count && isFiltered.Equals("True")))
             {
                 <!-- FILTRI -->
-                <input type="button" name="filter" value="Fitra" onclick="showDiv()" style="float:left;" />
-                <input type="button" name="filter" value="Chiudi" onClick="hide()" style="float:left;display:none;" id="topbarbtn" />
                 <div id="topbar">
                     <h2><b>Filtra per...</b></h2><br /><br />
                     @using (Html.BeginForm("List", "User", FormMethod.Get))
                     {
                         <fieldset>
-                            <table>
+                            <table class="table">
                                 <!-- Username -->
                                 <tr>
                                     <th></th>
@@ -65,8 +63,8 @@
                                 </tr>
                             </table>
                             <br /><br /><br />
-                            <input type="submit" value="Applica Filtro" id="acquista" />
-                            <input type="button" value="Pulisci Filtro"
+                            <input type="submit" class="botton__search" value="Applica Filtro" id="acquista" />
+                            <input type="button" class="botton__search" value="Annulla Filtro"
                                    onclick="@("window.location.href='" + @Url.Action("List", "User", new { clear = "clear" }) + "'");" />
                         </fieldset>
                     }
@@ -83,7 +81,7 @@
             else
             {
                 <div class="tables">
-                    <table border="1" id="utenti">
+                    <table class="tabel" border="1" id="utenti">
                         <tr>
                             <th>Email</th>
                             <th>Password</th>

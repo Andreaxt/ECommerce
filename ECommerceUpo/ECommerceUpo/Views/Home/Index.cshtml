@@ -15,68 +15,95 @@
             @TempData["LoginMsg"]
         </h1>
 
-        <h1>Top 10 Prodotti pi&#249; venduti</h1>
+        <h1>Preferiti dai clienti questo mese</h1>
 
-        <!-- Tabella dei prodotti top 10 venduti nel mese -->
-        <div class="tables">
-    <table class="big">
-        
+        <!-- Tabella dei prodotti top 10 venduti nel mese -->       
+
+        <div class="carousel-wrapper">
+            <span id="item-1"></span>
+            <span id="item-2"></span>
+            <span id="item-3"></span>
+            <span id="item-4"></span>
+            <span id="item-5"></span>
+            <span id="item-6"></span>
+            <span id="item-7"></span>
+            <span id="item-8"></span>
+            <span id="item-9"></span>
+            <span id="item-10"></span>
+
+            @{
+                int i = 1;
+                int j = 0;
+                int k = 2;
+
+            }
             @foreach (var s in Model)
             {
-                <tr>
-                    <td colspan="4">
-                        <section class="cards clearfix">
-                            <div class="card">
-                                @if (s.Image != null)
-                                {
-                                    <img class="card__image" src="data:image;base64,@System.Convert.ToBase64String(s.Image)"
-                                         width="200" height="200" />
-                                }
-                                else
-                                {
-                                    <img class="card__image" src="~/img/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
-                                }
-                                <div class="card__copy">
-                                    @Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })
+            <div class="carousel-item item-@i">
+                @if (s.Image != null)
+                {
+                    <div align="center"><img align="middle" src="data:image;base64,@System.Convert.ToBase64String(s.Image)"
+                         width="200" height="200" /></div>
+                }
+                else
+                {
+                    <img src="~/img/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
+                }
+                <h2 align="center">@Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })</h2>
+                @if ((role == null) || ((role != null) && role.Equals("user")))
+                {
 
-
-
-                                    @if ((role == null) || ((role != null) && role.Equals("user")))
-                                    {
-
-                                        @if (s.Disp.Equals("si"))
-                                        {
-                                            @using (Html.BeginForm("Add", "Cart", FormMethod.Post))
-                                            {
-                                                <fieldset>
-                                                    <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
-                                                    <input type="number" name="qta" id="qta" min="1" value="1" />
-                                                    <input type="submit" value="Aggiungi al carrello" />
-                                                </fieldset>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <b>Il prodotto non &eacute; disponibile!!!</b>
-
-                                        }
-
-                                    }
-
-                                </div>
+                    @if (s.Disp.Equals("si"))
+                    {
+                        @using (Html.BeginForm("Add", "Cart", FormMethod.Post))
+                        {
+                            <div align="center">
+                            <fieldset>
+                                <input type="text" name="prodotto" id="prodotto" value="@s.ProductId" hidden />
+                                <input type="number" name="qta" id="qta" min="1" value="1" />
+                                <input type="submit" class="botton__search" value="Aggiungi al carrello" />
+                            </fieldset>
                             </div>
+                        }
+                    }
+                    else
+                    {
+                        <b>Il prodotto non &eacute; disponibile!!!</b>
 
+                    }
 
+                }
+                @if (i == 1)
+                {
+                    <a class="arrow arrow-prev" href="#item-10"></a>
+                }
+                else
+                {
+                    <a class="arrow arrow-prev" href="#item-@j"></a>
+                }
+                @if (i == 10)
+                {
+                    <a class="arrow arrow-next" href="#item-1"></a>
+                }
+                else
+                {
+                    <a class="arrow arrow-next" href="#item-@k"></a>
+                }
 
+                @{
+                    i++;
+                    j++;
+                    k++;
+                }
+                
+            </div>
+                
 
-
-                        </section>
-                    </td>
-                </tr>
             }
 
-                </table>
-            </div>
+
+        </div>
+
 
     </div>
 </div>

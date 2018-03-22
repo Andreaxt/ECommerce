@@ -77,8 +77,6 @@
             }
             else if (role.Equals("user"))
             {
-                <!-- User ha soltanto Ordini -->
-                @Html.ActionLink(email, "Index", "Order", new { @class = "dropbtn" })
 
                 <li class="header__menu__item">
                     @Html.ActionLink("Elenco Ordini", "Index", "Order")
