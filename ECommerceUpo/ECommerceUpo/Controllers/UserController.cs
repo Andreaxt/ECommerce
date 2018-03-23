@@ -21,27 +21,20 @@ namespace ECommerceUpo.Controllers
 
         protected override Func<User, int, bool> FilterById => (e, id) => e.UserId == id;
 
-        //GET Utente/Create -> pagina col form di registrazione
-        //POST Utente/Create -> legge il form di registrazione
-
-        /*
-         * Passa alla pagina contenente il form di registrazione
-         */
+        //Manda alla pagina di sign in
         [HttpGet]
         public IActionResult Create() => View();
 
-        /*
-         * Processa le informazioni provenienti dal form di registrazione
-         */
+        //Crea un nuovo utente
         [HttpPost]
-        public async Task<IActionResult> Create(string user, string pass)
+        public async Task<IActionResult> Create(string email, string password)
         {
-            //controlla che non esista gia' lo stesso username desiderato
+            //controlla l'email non sia gia registrata
             var query = from utenti in Context.User
-                        where utenti.Email.Equals(user)
+                        where utenti.Email.Equals(email)
                         select utenti;
 
-            //se username e' gia' presente nel db allora rimanda alla view con un messaggio
+            //se lo è manda un messaggio
             if (query.Count() != 0)
             {
                 TempData["LoginMsg"] = "Email gia' esistente";
@@ -49,20 +42,17 @@ namespace ECommerceUpo.Controllers
                 return View();
             }
 
-            //se username non esiste gia':
-            //assume password gia' controllate in javascript (wwwroot/js/valdate.js):
-            //rende persistente il nuovo utente chiamando il metodo Create del CrudController
-            await base.Create(new User { Email = user, Password = pass, Role = "user" });
+            //altrimenti aggiunge il record nel db, il form ha già uno script con cui controlla che le password siano uguali
+            await base.Create(new User { Email = email, Password = password, Role = "user" });
 
-            //recupera dal db l'utente con CdUtente appena inserito
+            //query che restituisce i dati dell'utente appena inserito
             query = from utenti in Context.User
-                    where utenti.Email.Equals(user)
+                    where utenti.Email.Equals(email)
                     select utenti;
 
-            //utente appena inserito:
             User New = query.First();
 
-            //SALVA IN SESSION DATI LOGIN dell'utente appena inserito (Effettua la login)
+            //salva i dati nel bean dell'utente e manda alla home page
             HttpContext.Session.SetInt32("UserId", New.UserId);
             HttpContext.Session.SetString("Email", New.Email);
             HttpContext.Session.SetString("Role", New.Role);
@@ -71,42 +61,34 @@ namespace ECommerceUpo.Controllers
             return Redirect("/Home/Index");
         }
 
-        //GET Utente/Login -> pagina col form di login
-        //POST Utente/Login -> legge il form di login
-
-        /*
-         * Rimanda alla pagina di login
-         */
+        //Manda alla pagina di login
         [HttpGet]
         public IActionResult Login() => View();
 
-        /*
-         * Processa i dati del form di login
-         */
+        //Fa il login di un utente
         [HttpPost]
-        public IActionResult Login(string user, string pass)
+        public IActionResult Login(string email, string password)
         {
             User loggato;
 
-            //controlla se esiste utente con quella password nel db, per sicurezza
+            //controlla se esiste gia un utente con quella email e quella password
             var query = from utenti in Context.User
-                        where utenti.Email.Equals(user) && utenti.Password.Equals(pass)
+                        where utenti.Email.Equals(email) && utenti.Password.Equals(password)
                         select utenti;
 
-            //se trova un risultato, salva in session codice e ruolo
+            //se esiste lo salva nel bean
             if (query.Count() == 1)
             {
-                //unico elemento della lista: l'utente con CdUtente
+               
                 loggato = query.First();
 
-                //SALVA IN SESSION DATI LOGIN (Effettua login)
                 HttpContext.Session.SetInt32("UserId", loggato.UserId);
                 HttpContext.Session.SetString("Email", loggato.Email);
                 HttpContext.Session.SetString("Role", loggato.Role == null ? "none" : loggato.Role);
 
                 return Redirect("/Home");
             }
-            //altrimenti rimanda alla login con messaggio
+            //altrimenti rimanda alla pagina di login con messaggio per segnalare l'errore
             else
             {
                 TempData["LoginMsg"] = "Email o password errati";
@@ -115,13 +97,11 @@ namespace ECommerceUpo.Controllers
             }
         }
 
-        /*
-         * Effettua il logout
-         */
+        //Fa il logout
         [HttpGet]
-        public IActionResult Logout(string user, string pass)
+        public IActionResult Logout(string email, string password)
         {
-            //rimuove da session tutti i dati di login
+            //rimuove i dati dal bean utente e dal suo carrello
             HttpContext.Session.Remove("UserId");
             HttpContext.Session.Remove("Role");
             HttpContext.Session.Remove("LoginMsg");
@@ -130,48 +110,43 @@ namespace ECommerceUpo.Controllers
             return Redirect("/Home");
         }
 
-        /*
-         * Aggiorna i dati relativi ad un utente (SOLO ADMIN)
-         */
+        //Modifica il ruolo di un utente
         [HttpPost]
-        public async Task<IActionResult> Update(string user, string ruolo)
+        public async Task<IActionResult> Update(string email, string role)
         {
-            //riceve parametri dal form
-            Int32.TryParse(user, out int UserId);
+            //legge i parametri dal form
+            Int32.TryParse(email, out int UserId);
             User ToUpdate;
 
-            //cerca nel db l'utente con cdUtente corrispondente a quello ricevuto dal form
+            //query che ritorna un utente con id corrispondente a quello del form
             var query = from utenti in Context.User
                         where utenti.UserId.Equals(UserId)
                         select utenti;
 
-            //prende il primo elemento (l'unico) della query
             ToUpdate = query.First();
 
-            //modifica ruolo solo se diverso
-            if (!ToUpdate.Role.Equals(ruolo))
+            //se il ruolo è stato modificato lo cambia anche nel record del db
+            if (!ToUpdate.Role.Equals(role))
             {
-                ToUpdate.Role = ruolo;
+                ToUpdate.Role = role;
 
-                //rende le modifiche persistenti chiamando il metodo Update del CrudController
+                //modifica il record del db
                 await base.Update(ToUpdate);
             }
 
             return Redirect("/User/List");
         }
 
-        /*
-         * Espone la lista di tutti gli utenti registrati (SOLO ADMIN), con possibilita' di filtrare
-         */
-        public IActionResult List(string clear, string username, string ruolo)
+        //Per gli utenti admin mostra la lista di tutti gli utenti, si possono filtrare per nome e ruolo
+        public IActionResult List(string clear, string email, string role)
         {
-            //seleziona dal db tutti  gli utenti
+            //query che ritorna tutti gli utenti nel db
             var Query = from utenti in Context.User
                         select utenti;
             bool filtered = false;
 
-            //FILTRO: custom IQueryable extension method
-            Query = Query.FilterUser(ref filtered, clear, username, ruolo);
+            //si puo filtrare per nome e ruolo
+            Query = Query.FilterUser(ref filtered, clear, email, role);
 
             TempData["UtenteFilter"] = filtered.ToString();
             return View(Query.ToList());

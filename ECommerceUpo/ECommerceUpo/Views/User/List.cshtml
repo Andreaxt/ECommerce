@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "UsersListAdmin";
-    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
     bool count = false;
     var isFiltered = TempData["UtenteFilter"];
 
@@ -16,14 +16,14 @@
     <div class="main">
 
         <!-- Controllo ruoli: solo admin puo' accedere alla gestione utenti -->
-        @if (ruolo == null)
+        @if (role == null)
         {
             <h1>
                 Non sei loggato!<br /><br />
                 @Html.ActionLink("Login", "Login", "User")
             </h1>
         }
-        else if (ruolo.Equals("user"))
+        else if (role.Equals("user"))
         {
             <h1>Area riservata agli amministratori!</h1>
         }
@@ -47,14 +47,14 @@
                                     <th></th>
                                 </tr>
                                 <tr>
-                                    <td><b>Username</b></td>
-                                    <td><input type="text" name="username" /></td>
+                                    <td><b>Email</b></td>
+                                    <td><input type="text" name="email" /></td>
                                 </tr>
                                 <!-- Ruolo -->
                                 <tr>
                                     <td><b>Ruolo</b></td>
                                     <td>
-                                        <select name="ruolo">
+                                        <select name="role">
                                             <option value=""></option>
                                             <option value="user">user</option>
                                             <option value="admin">admin</option>
@@ -81,7 +81,7 @@
             else
             {
                 <div class="tables">
-                    <table class="tabel" border="1" id="utenti">
+                    <table class="table" border="1" id="utenti">
                         <tr>
                             <th>Email</th>
                             <th>Password</th>
@@ -99,8 +99,8 @@
                                     @using (Html.BeginForm("Update", "User", FormMethod.Post))
                                     {
                                         <fieldset>
-                                            <input type="text" name="user" id="user" value="@s.UserId" hidden />
-                                            <select name="ruolo" id="ruolo">
+                                            <input type="text" name="email" id="email" value="@s.UserId" hidden />
+                                            <select name="role" id="role">
                                                 <option value="user">user</option>
                                                 <option value="admin">admin</option>
                                             </select>
