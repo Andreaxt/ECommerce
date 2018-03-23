@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceUpo.Data
 {
+    //bean per mantenere i dati i un ordine
     public class OrderBean
     {
         public string Email { get; set; }

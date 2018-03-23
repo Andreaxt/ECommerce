@@ -1,8 +1,6 @@
 ﻿namespace ECommerceUpo.Data
 {
-    /*
-     * Oggetto usato per visualizzare i dati del carrello nelle Views
-     */
+    //bean per mantenere il carrello in sessione
     public class CartBean
     {
         public int ProductId { get; set; }

@@ -14,11 +14,13 @@ namespace ECommerceUpo.Data
 
         public ECommerceUpoContext() { }
 
+        //entità del db
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderProduct> OrderProduct { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<User> User { get; set; }
 
+        //recupera la stringa di autenticazione per connettersi al db
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = Startup.Configuration.GetConnectionString("DefaultConnection");

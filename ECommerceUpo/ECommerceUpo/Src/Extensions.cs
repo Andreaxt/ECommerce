@@ -10,22 +10,18 @@ namespace ECommerceUpo
 {
     public static class Extensions
     {
-        //limiti datetime
+        //massimo e minimo possibili per le date
         private static readonly string MIN_DATE = "1/1/1754";
         private static readonly string MAX_DATE = "12/31/9998";
 
 
-        /*
-         * Serializza oggetti complessi in array di byte per salvarli in session
-         */
+        //trasforma in array di bytes degli oggetti complessi tipo immagini per salvarli in sessione
         public static void SetObjectAsJson(this ISession session, string key, object value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value));
         }
 
-        /*
-         * Deserializza gli oggetti in session (byte[]) rimappandoli nell'oggetto originale
-         */
+        //ritrasforma nell'oggetto originale a partire dall'array di bytes
         public static T GetObjectFromJson<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
@@ -37,40 +33,34 @@ namespace ECommerceUpo
          * filtra tutti i nomi: se trova un argomento != null, chiama il corrispondente Func<> definito nella strategy, il quale filtra.
          * Ordini, Utenti e Prodotti chiamano con parametri diversi e con Strategy diverse
          */
-        private static IQueryable<T> GeneralFilter<T>(ref IQueryable<T> Query, ref bool filtered, string clear,
-            string start, string end, string titolo, string state,  //ordine
-            string username, string ruolo,                          //utente
-            string titoloProd, string disp, string sconto,          //prodotto
-            Filters<T> Strategy)
+        private static IQueryable<T> GeneralFilter<T>(ref IQueryable<T> Query, ref bool filtered, string clear, string state, string email, string role, Filters<T> filter)
         {
-            //limiti DateTime
+            //massimo e minimo possibili per le date
             DateTime.TryParse(MIN_DATE, out DateTime MIN);
             DateTime.TryParse(MAX_DATE, out DateTime MAX);
 
             filtered = false;
 
-            //se c'e' clear, non fa niente
+            //se c'è clear non fa niente
             if (clear == null)
             {
               
-                //UTENTE
-                if (username != null && !username.Equals(""))
+                //Per filtrare gli utenti
+                if (email != null && !email.Equals(""))
                 {
-                    //Query = Query.Where(u => u.Username.Contains(username));
-                    Query = Strategy.FilterUser(Query, username);
+                    Query = filter.FilterUser(Query, email);
                     filtered = true;
                 }
 
-                if (ruolo != null && !ruolo.Equals(""))
+                if (role != null && !role.Equals(""))
                 {
-                    //Query = Query.Where(u => u.Ruolo.Equals(ruolo));
-                    Query = Strategy.FilterRole(Query, ruolo);
+                    Query = filter.FilterRole(Query, role);
                     filtered = true;
                 }
-                //Ordine
+                //Per filtrare gli ordini
                 if (state != null && !state.Equals(""))
                 {
-                    Query = Strategy.FilterState(Query, state);
+                    Query = filter.FilterState(Query, state);
                     filtered = true;
                 }
 
@@ -79,31 +69,27 @@ namespace ECommerceUpo
             return Query;
         }
 
-        /*
-        * Filtra fra gli utenti: solo admin (/Utenti/List)
-        */
-        public static IQueryable<User> FilterUser(this IQueryable<User> Query, ref bool filtered, string clear, string username, string ruolo)
+        //Filtra gli utenti in base a email e ruolo, solo per utenti di tipo admin
+        public static IQueryable<User> FilterUser(this IQueryable<User> Query, ref bool filtered, string clear, string email, string role)
         {
             filtered = false;
 
-            Query = GeneralFilter(ref Query, ref filtered, clear, null, null, null, null, username, ruolo, null, null, null,
+            Query = GeneralFilter(ref Query, ref filtered, clear, null, email, role,
                 new Filters<User>()
                 {
                     FilterUser = (query, emailuser) => query.Where(utente => utente.Email.Contains(emailuser)),
-                    FilterRole = (query, role) => query.Where(utente => utente.Role.Equals(role))
+                    FilterRole = (query, roleuser) => query.Where(utente => utente.Role.Equals(roleuser))
                 });
 
             return Query;
         }
 
-        /*
-        * Filtra fra gli ordini sent/processed x admin
-        */
+        //Filtra gli ordini sent/processed, solo per utenti di tipo admin
         public static IQueryable<OrderBean> FilterState(this IQueryable<OrderBean> Query, ref bool filtered, string clear, string state)
         {
             filtered = false;
 
-            Query = GeneralFilter(ref Query, ref filtered, clear, null, null, null, state, null, null, null, null, null,
+            Query = GeneralFilter(ref Query, ref filtered, clear, state, null, null,
                 new Filters<OrderBean>()
                 {
                     FilterState = (query, stato) => query.Where(ordine => ordine.State.Equals(stato)),
