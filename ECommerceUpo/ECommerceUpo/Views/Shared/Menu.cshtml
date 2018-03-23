@@ -3,7 +3,7 @@
     var email = HttpContextAccessor.HttpContext.Session.GetString("Email");
 }
 
-<!-- Menu' nella parte superiore -->
+<!-- Menu' nella barra di navigazione -->
 
 <header class="header clearfix">
 
@@ -22,7 +22,7 @@
             }
         </li>
 
-        <!--  Carrello: visualizza l'icona (e link) solo se loggati e user  -->
+        <!--  Solo se non si è loggati o se si è loggati come user si puo' vedere il carrello  -->
         @if ((role == null) || (role != null && role.Equals("user")))
         {
             <li class="header__menu__item">
@@ -55,12 +55,12 @@
         }
         </li>
 
-        <!---   -->
+        <!---Altrimenti-->
 
         @if (role != null)
         {
 
-                <!-- Admin ha le 3 pagne di gestione -->
+                <!--Gli admin vedono le 3 pagine per gestire utenti/prodotti/ordini -->
             @if (role.Equals("admin"))
                 {
              

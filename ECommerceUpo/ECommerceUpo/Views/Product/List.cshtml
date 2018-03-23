@@ -6,7 +6,7 @@
 <div class="container">
     <div class="main">
 
-        <!-- Controllo ruoli: solo admin puo' accedere all pagina di modifica dei prodotti -->
+        <!-- Controlla il ruolo, solo gli admin possono modificare i prodotti -->
         @if (role == null)
         {
             <h1>
@@ -22,7 +22,7 @@
         {
             <h1>Gestione Prodotti</h1>
 
-            <!-- Tabella globale prodotti -->
+            <!-- Tabella con elenco di tutti i prodotti nel db -->
             <div class="table" style="padding-top:10px">
                 @foreach (var s in Model)
                 {
@@ -42,7 +42,7 @@
                         </tr>
                         <tr>
                             <td colspan="4">
-                                <!-- Link al dettaglio prodotto -->
+                                <!-- Link alla pagina con i dettagli del prodotto -->
                                 @Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })
                             </td>
                         </tr>
@@ -101,7 +101,7 @@
                         <tr>
                             <td colspan="4">
 
-                                <!-- Form di modifica dei dati del prodotto -->
+                                <!-- Form per modificare prezzo/sconto/disponibilità del prodotto -->
                                 @using (Html.BeginForm("Update", "Product", FormMethod.Post))
                                 {
                                     <fieldset>

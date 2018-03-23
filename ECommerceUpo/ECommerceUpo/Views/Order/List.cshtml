@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<OrderBean>
 @{
     ViewBag.Title = "OrdersListAdmin";
-    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
     bool count = false;
     var isFiltered = TempData["OrdineFilter"];
 
@@ -14,26 +14,26 @@
 <div class="container">
     <div class="main">
 
-        <!-- Controllo ruoli: solo admin puo' accedere all'elenco di tutti gli ordini -->
-        @if (ruolo == null)
+        <!-- Controlla i ruoli, solo gli admin possono gestire gli ordini -->
+        @if (role == null)
         {
             <h1>
                 Non sei loggato!<br /><br />
                 @Html.ActionLink("Login", "Login", "User")
             </h1>
         }
-        else if (ruolo.Equals("user"))
+        else if (role.Equals("user"))
         {
-            <h1>Area riservata agli amministratori!</h1>
+            <h1>Area riservata agli admin!</h1>
         }
         else
         {
             <h1>Lista Ordini</h1>
-             <!--  Solo se model e' pieno, oppure filtro "sbagliato", ripropone il filtro  -->
+             <!-- Se il modello non è vuoto propone il filtro -->
             @if (count || (!count && isFiltered.Equals("True")))
-            {
-                <!-- FILTRI -->
+            {               
                 <div id="topbar">
+                    <!--Filtro per filtrare gli ordini in base allo stato -->
                     <h2><b>Filtra</b></h2><br /><br />
                     @using (Html.BeginForm("List", "Order", FormMethod.Get))
                     {
@@ -71,7 +71,7 @@
 
             else
             {
-            <!-- Tabella ordini globali -->
+            <!-- Tabella con tutti gli ordini -->
                 <div class="table">
                     <table class="ordine">
                         <tr>
@@ -95,11 +95,11 @@
                                 <td rowspan="@group.Count()">@Ordine.TotalPrice</td>
                                 <td rowspan="@group.Count()">@Ordine.State</td>
 
-                                <!-- Permette di modificare lo stato solo da sent a processed -->
+                                <!-- Modificare lo stato da sent a processed -->
                                 <td rowspan="@group.Count()">
                                     @if (Ordine.State.Equals("sent"))
                                     {
-                                <!-- FORM modifica ordini -->
+                                <!-- Form per la modifica dello stato -->
                                         @using (Html.BeginForm("Update", "Order", FormMethod.Post))
                                         {
                                             <fieldset>
@@ -112,10 +112,10 @@
                                         }
                                     }
                                 </td>
-                                <!-- Elenco prodotti contenuti nell'ordine -->
+                                <!-- Per ogni ordine vengono elencati i prodotti che ne fanno parte -->
                                 @foreach (var s in group)
                                 {
-                                <!-- Link al dettaglio prodotto -->
+                                <!-- Link alla pagina dei dettagli del prodotto -->
                                     <td>@Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })</td>
                                     <td>@s.Quantity</td>
                                     @:</tr>

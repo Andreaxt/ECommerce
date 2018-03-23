@@ -9,7 +9,7 @@
     <div class="main">
         <h1>Catalogo Offerte!</h1>
 
-        <!-- Tabella elenco di tutti i prodotti presenti -->
+        <!-- Tabella con elenco di tutti prodotti presenti nel db che hanno uno sconto>0 -->
         <div class="table">
             @foreach (var s in Model)
             {
@@ -29,7 +29,7 @@
                     </tr>
                     <tr>
                         <td colspan="4">
-                            <!-- Link al dettaglio prodotto -->
+                            <!-- Link alla pagina con i dettagli del prodotto -->
                             @Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })
                         </td>
                     </tr>
@@ -85,7 +85,7 @@
                     </tr>
                     <tr></tr>
 
-                    <!-- Form pulsante aggiungi al carrello per user -->
+                    <!-- Se l'utente è di tipo user vede il bottone per aggiungere il prodotto al carello, quando questo è disponibile -->
                     @if ((role == null) || ((role != null) && role.Equals("user")))
                     {
                         <tr>

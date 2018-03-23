@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<OrderBean>
 @{
-    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
     ViewBag.Title = "OrdersList";
     bool count = Model.Count() != 0;
 
@@ -8,15 +8,15 @@
 <div class="container">
     <div class="main">
 
-        <!-- Controllo ruoli: solo user puo' accedere agli ordini personali -->
-        @if (ruolo == null)
+        <!-- Solo gli utenti di tipo user possono vedere l'elenco dei propri ordini, gli admin invece hanno una loro area privata dove possono gestire utenti/prodotti/ordini -->
+        @if (role == null)
         {
             <h1>
                 Non sei loggato!<br /><br />
                 @Html.ActionLink("Login", "Login", "User")
             </h1>
         }
-        else if (ruolo.Equals("admin"))
+        else if (role.Equals("admin"))
         {
             <h1>Area riservata agli utenti!</h1>
         }
@@ -24,7 +24,7 @@
         {
             <h1>Lista Ordini</h1>
 
-            <!-- Se il model e' vuoto (nessun ordine oppure filtro "sbagliato")  -->
+            <!-- Se non ci sono ordini effettuati dall'utente-->
             @if (!count)
             {
                 <div id="desc">
@@ -33,7 +33,7 @@
             }
             else
             {
-                <!-- Tabella elenco ordini -->
+                <!-- Tabella con elenco degli ordini effettuati dall'utente -->
                 <table class="ordine">
                     <tr>
                         <th>Codice ordine</th>
@@ -61,10 +61,10 @@
                         </td>
                         <td rowspan="@group.Count()">@Ordine.TotalPrice</td>
 
-                        <!-- Elenco prodotti contenuti nell'ordine -->
+                        <!-- Per ogni ordine elenca tutti i prodotti che ne fanno parte -->
                         @foreach (var s in group)
                         {
-                                <!-- Link al dettaglio prodotto -->
+                                <!-- Link alla pagina con i dettagli del prodotto -->
                             <td>@Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })</td>
                                 <td>@s.Quantity</td>
                                 @:</tr>

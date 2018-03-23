@@ -15,7 +15,7 @@
         }
         else
         {
-            <!-- Tabella dei prodotti che matchano la ricerca (per Title / descrizione) -->
+            <!--Tabella con i prodotti che contengono la stringa cercata nel titolo o nella descrizione -->
             <div class="tables">
                 @foreach (var s in Model)
                 {
@@ -35,7 +35,7 @@
                         </tr>
                         <tr>
                             <td colspan="4">
-                                <!--Link al dettaglio prodotto  -->
+                                <!--Link alla pagina con i dettagli del prodotto  -->
                                 @Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })
                             </td>
                         </tr>
@@ -91,7 +91,7 @@
                         </tr>
                         <tr></tr>
 
-                        <!-- Form pulsante aggiungi al carrello per user -->
+                        <!-- Se l'utente è di tipo user vede il bottono per aggiungere il prodotto al carrello, se questo è disponibile -->
                         @if ((role == null) || ((role != null) && role.Equals("user")))
                         {
                             <tr>

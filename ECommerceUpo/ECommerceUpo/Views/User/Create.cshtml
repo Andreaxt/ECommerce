@@ -8,7 +8,7 @@
 <div class="container">
     <div class="main">
 
-        <!-- Controllo ruoli: ci si puo' registrare solo se non si e' gia' loggati -->
+        <!-- Controlla i ruoli, se non si è ne admin ne user (quindi non si è ancora loggati) ci si puo' registrare -->
         @if (ruolo != null)
         {
             <h1>Sei gi&aacute; registrato!</h1>
@@ -18,12 +18,12 @@
          
 
             <h1>
-                <!-- MESSAGGIO possibile login errata -->
+                <!--Se si mette un email già registrata viene stampato questo messaggio di errore -->
                 @TempData["LoginMsg"]
 
             </h1>
 
-            <!-- Form registrazione -->
+            <!-- Form per la registrazione -->
             <div class="login__pagediv">
                 @using (Html.BeginForm("Create", "User", FormMethod.Post, new { @id = "form1" }))
                 {

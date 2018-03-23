@@ -9,7 +9,7 @@
     <div class="main">
         <h1>Dettaglio Prodotto</h1>
 
-        <!-- "Tabella" dettaglio prodotto -->
+        <!-- Tabella con i dettagli relativi ad un prodotto -->
         <div class="table">
             @foreach (var s in Model)
             {
@@ -84,7 +84,7 @@
                     </tr>
                     <tr></tr>
 
-                    <!-- Pulsante aggiungi al carrello per user -->
+                    <!-- Se l'utente è di tipo user vede il bottone per aggiungere il prodotto al carrello, qualora il prodotto sia disponibile -->
                     @if ((role == null) || ((role != null) && role.Equals("user")))
                     {
                         <tr>
@@ -110,8 +110,8 @@
                     }
                 </table>
                 <div id="desc">
-                    <b id="tit">@s.Title</b><br /><br />
-                    @s.Description
+                    <p id="tit">@s.Title</p><br /><br />
+                    <p>@s.Description</p>
                 </div>
             }
         </div>

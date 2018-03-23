@@ -1,25 +1,24 @@
 ﻿@{
     ViewData["Title"] = "HomeAdmin";
-    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
 
 <div class="container">
     <div class="main">
-        <h1>Area Amministrazione</h1>
+        <h1>Area Admin</h1>
 
-        <!-- Controllo ruoli: solo admin puo' accedere ad Area Privata (amministrazione) -->
-        <!-- Area "privata" utente corrisponde soltanto all'elenco ordini -->
-        @if (ruolo == null)
+        <!-- Solo gli admin possono accedere a questa area privata e vedere le pagine per la gestione utenti/prodotti/ordini, gli user hanno solo la pagina con l'elenco dei propri ordini come area privata-->
+        @if (role == null)
         {
             <h1>Non sei loggato!</h1>
         }
-        else if (ruolo.Equals("user"))
+        else if (role.Equals("user"))
         {
-            <h1>Area riservata agli amministratori!</h1>
+            <h1>Area riservata agli admin!</h1>
         }
         else
         {
-            <!-- Links alle pagine di gestione  -->
+            <!-- Link alle pagine per gestire utenti/prodotti/ordini  -->
             <div id="greybar"><br /><br /></div>
             <div class="ph">
                 <div id="links">

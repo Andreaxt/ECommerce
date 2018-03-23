@@ -9,7 +9,7 @@
     <div class="main">
         <h1>Catalogo Prodotti</h1>
 
-        <!-- Tabella elenco di tutti i prodotti presenti -->
+        <!-- Tabella che elenca tutti i prodotti nel db -->
         <div class="table">
             @foreach (var s in Model)
             {
@@ -23,13 +23,14 @@
                             }
                             else
                             {
-                                <img src="~/img/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
+                                //se non c'è un'immagine ne mettiamo una di default
+                                <img src="~/Image/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
                             }
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4">
-                            <!-- Link al dettaglio prodotto -->
+                            <!-- Link alla pagina con i dettagli relativi al prodotto -->
                             @Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })
                         </td>
                     </tr>
@@ -85,7 +86,7 @@
                     </tr>
                     <tr></tr>
 
-                    <!-- Form pulsante aggiungi al carrello per user -->
+                    <!-- Form per aggiungere un prodotto al carello specificandone anche la quantita' se si vuole, di default è 1. Gli utenti di tipo admin non possono aggiungere prodotti al carrello -->
                     @if ((role == null) || ((role != null) && role.Equals("user")))
                     {
                         <tr>

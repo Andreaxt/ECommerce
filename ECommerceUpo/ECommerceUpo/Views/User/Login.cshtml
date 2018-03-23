@@ -1,17 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Login";
-    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
 
 
-        @if (ruolo != null)
+        @if (role != null)
         {
             <h1>Hai gi&aacute; effettuato l'accesso!</h1>
         }
         else
         {
             <h1>
-                <!-- MESSAGGIO possibile login errata -->
+                <!-- Se email o password inserite per il login sono errate stampa questo messaggio -->
                 @TempData["LoginMsg"]
 
             </h1>

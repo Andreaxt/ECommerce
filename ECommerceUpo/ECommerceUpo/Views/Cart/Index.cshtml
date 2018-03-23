@@ -2,15 +2,15 @@
 
 @{
     ViewData["Title"] = "MyCart";
-    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
     double totale = 0;
 }
 
 <div class="container">
     <div class="main">
 
-        <!-- Controllo ruoli: solo user o utente non loggato possono accedere al carrello-->
-        @if ((ruolo != null) && (ruolo.Equals("admin")))
+        <!--Controllo dei ruoli, gli admin non possono vedere il carrello-->
+        @if ((role != null) && (role.Equals("admin")))
         {
             <h1>Area riservata agli utenti!</h1>
         }
@@ -26,7 +26,7 @@
             }
             else
             {
-            <!-- Tabella dei prodotti contenuti nel carrello -->
+            <!--Tabella con prodotti nel carrello-->
                 <div class="table">
                     <table class="table">
                         <tr>
@@ -39,8 +39,7 @@
                         </tr>
 
                         @foreach (var s in Model)
-                    {
-
+                         {
                             <tr>
                                 <td>
                                     @if (s.Image != null)
@@ -50,11 +49,12 @@
                                     }
                                     else
                                     {
+                                        //se non c'è l'immagine mettiamo un'immagine di default
                                         <img src="~/img/noimage.jpg" alt="NO IMAGE" width="80" height="80" />
                                     }
                                 </td>
                                 <td>
-                                    <!-- link al dettaglio del prodotto -->
+                                    <!--Link alla pagine del prodotto specifico-->
                                     <b id="tit">@Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })</b>
                                 </td>
                                 <td>
@@ -72,7 +72,7 @@
                                     @s.Quantity
                                 </td>
                                 <td>
-                                    <!-- Form per la modifica della quantita' di un prodotto nel carrello -->
+                                    <!-- Form per modificare quantita del prodotto nel carrello -->
                                     @using (Html.BeginForm("Update", "Cart", FormMethod.Post))
                                     {
                                         <fieldset>
@@ -83,7 +83,7 @@
                                     }
                                 </td>
                                 <td>
-                                    <!-- Form per la rimozione di un prodotto dal carrello -->
+                                    <!-- Form rimuovere un prodotto dal carrello -->
                                     @using (Html.BeginForm("Remove", "Cart", FormMethod.Post))
                                     {
                                         <fieldset>
@@ -96,9 +96,9 @@
                             </tr>
                             totale += (s.Price - s.Discount) * s.Quantity;
 
-                        }
+                         }
                     </table>
-                    <!-- Bottoni per acquisto o svuotamento carrello -->
+                    <!--Bottoni per terminare l'acquisto o per svuotare completamente il carrello -->
                     <div class="totale">
                         <h3>TOTALE CARRELLO: @totale</h3>
                         <input type="button" class="botton__search" value="ACQUISTO" id="acquista"
