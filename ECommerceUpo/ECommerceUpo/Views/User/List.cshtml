@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<User>
 
 @{
-    ViewBag.Title = "Upo e-Commerce - GESTIONE UTENTI";
+    ViewBag.Title = "UsersListAdmin";
     var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
     bool count = false;
     var isFiltered = TempData["UtenteFilter"];

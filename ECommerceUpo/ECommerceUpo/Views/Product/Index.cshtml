@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Product>
 
 @{
-    ViewData["Title"] = "Upo e-Commerce - CATALOGO";
+    ViewData["Title"] = "ProdcutsList";
     var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
 
@@ -10,7 +10,7 @@
         <h1>Catalogo Prodotti</h1>
 
         <!-- Tabella elenco di tutti i prodotti presenti -->
-        <div class="tables">
+        <div class="table">
             @foreach (var s in Model)
             {
                 <table class="table">

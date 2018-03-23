@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Upo e-Commerce - LOGIN";
+    ViewData["Title"] = "Login";
     var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
 
@@ -31,7 +31,7 @@
                         <br />
                         <br />
                         <br />
-                        <input type="submit" class="botton__submit" value="Log in" />
+                        <input type="submit" class="botton__submit" value="Log In" />
 
                         <br />
                         <br />
@@ -41,7 +41,7 @@
                         Oppure
                         <br />
                         <br />
-                        <input type="button" class="botton__submit" value="REGISTRATI"
+                        <input type="button" class="botton__submit" value="Sign In"
                                onclick="@("window.location.href='" + @Url.Action("Create", "User") + "'");" />
 
                     </fieldset>

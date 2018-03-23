@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<Product>
 
 @{
-    ViewData["Title"] = "ProductDetails";
+    ViewData["Title"] = "SmallPrices";
     var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
 
 <div class="container">
     <div class="main">
-        <h1>Dettaglio Prodotto</h1>
+        <h1>Catalogo Offerte!</h1>
 
-        <!-- "Tabella" dettaglio prodotto -->
+        <!-- Tabella elenco di tutti i prodotti presenti -->
         <div class="table">
             @foreach (var s in Model)
             {
@@ -29,7 +29,8 @@
                     </tr>
                     <tr>
                         <td colspan="4">
-                            @s.Title
+                            <!-- Link al dettaglio prodotto -->
+                            @Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })
                         </td>
                     </tr>
                     <tr>
@@ -84,7 +85,7 @@
                     </tr>
                     <tr></tr>
 
-                    <!-- Pulsante aggiungi al carrello per user -->
+                    <!-- Form pulsante aggiungi al carrello per user -->
                     @if ((role == null) || ((role != null) && role.Equals("user")))
                     {
                         <tr>
@@ -109,14 +110,7 @@
                         </tr>
                     }
                 </table>
-                <div id="desc">
-                    <b id="tit">@s.Title</b><br /><br />
-                    @s.Description
-                </div>
             }
         </div>
-
     </div>
 </div>
-
-

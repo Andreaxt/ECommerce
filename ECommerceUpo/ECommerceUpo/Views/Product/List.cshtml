@@ -1,20 +1,20 @@
 ﻿@model IEnumerable<Product>
 @{
-    ViewData["Title"] = "GESTIONE PRODOTTI";
-    var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
+    ViewData["Title"] = "ProductsListAdmin";
+    var role = HttpContextAccessor.HttpContext.Session.GetString("Role");
 }
 <div class="container">
     <div class="main">
 
         <!-- Controllo ruoli: solo admin puo' accedere all pagina di modifica dei prodotti -->
-        @if (ruolo == null)
+        @if (role == null)
         {
             <h1>
                 Non sei loggato!<br /><br />
                 @Html.ActionLink("Login", "Login", "User")
             </h1>
         }
-        else if (ruolo.Equals("user"))
+        else if (role.Equals("user"))
         {
             <h1>Area riservata agli amministratori!</h1>
         }

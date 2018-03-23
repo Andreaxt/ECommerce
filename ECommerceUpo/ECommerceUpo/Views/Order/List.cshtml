@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<OrderBean>
 @{
-    ViewBag.Title = "OrderList";
+    ViewBag.Title = "OrdersListAdmin";
     var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
     bool count = Model.Count() != 0;
 

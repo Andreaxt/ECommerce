@@ -44,7 +44,7 @@ namespace ECommerceUpo.Controllers
             //se username e' gia' presente nel db allora rimanda alla view con un messaggio
             if (query.Count() != 0)
             {
-                TempData["LoginMsg"] = "Username inserito esiste gia'! Prova con un altro username";
+                TempData["LoginMsg"] = "Email gia' esistente";
 
                 return View();
             }
@@ -66,7 +66,7 @@ namespace ECommerceUpo.Controllers
             HttpContext.Session.SetInt32("UserId", New.UserId);
             HttpContext.Session.SetString("Email", New.Email);
             HttpContext.Session.SetString("Role", New.Role);
-            TempData["LoginMsg"] = "Registrazione Completata!";
+            TempData["LoginMsg"] = "Registrazione avvenuta con successo";
 
             return Redirect("/Home/Index");
         }
@@ -109,7 +109,7 @@ namespace ECommerceUpo.Controllers
             //altrimenti rimanda alla login con messaggio
             else
             {
-                TempData["LoginMsg"] = "Username o Password non corretti";
+                TempData["LoginMsg"] = "Email o password errati";
 
                 return Redirect("/User/Login");
             }
