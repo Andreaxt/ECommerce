@@ -9,5 +9,7 @@ namespace ECommerceUpo.Src
     {
         public virtual Func<IQueryable<T>, string, IQueryable<T>> FilterUser { get; set; }
         public virtual Func<IQueryable<T>, string, IQueryable<T>> FilterRole { get; set; }
+        public virtual Func<IQueryable<T>, string, IQueryable<T>> FilterState { get; set; }
+
     }
 }

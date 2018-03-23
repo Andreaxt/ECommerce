@@ -13,21 +13,18 @@ namespace ECommerceUpo.Controllers
 {
     public class CartController : Controller
     {
-        /*
-         * Mostra lo stato del carrello
-         */
+        //Pagina principale x il carrello con il contenuto attuale
         public async Task<IActionResult> Index()
         {
             ECommerceUpoContext context = new ECommerceUpoContext();
 
-            //legge codice prodotti salvati in session
+            //legge id prodotti dal bean del carrello che è in sessione se è pieno altrimenti ne crea uno nuovo
             var SessionCart = HttpContext.Session.GetObjectFromJson<List<OrderProduct>>("Cart");
 
-            //se non c'e' nessun prodotto in session, carrello vuoto
             if (SessionCart == null)
                 return View(new List<CartBean>());
 
-            //con i codici prodotto in session, recupera tutte le info sui prodotti da db
+            //query per recuperare tutti i dati realitivi ai prodotti a partire dal loro id che abbiamo in sessione nel carrello
             var query = from prodotti in context.Product
                         join carrello in SessionCart on prodotti.ProductId equals carrello.ProductId
                         select new CartBean
@@ -44,41 +41,37 @@ namespace ECommerceUpo.Controllers
             return View(await query.ToListAsync());
         }
 
-        /*
-         * Aggiunge un prodotto al carrello
-         */
+        //Aggiunge un prodotto al carrello
         [HttpPost]
-        public IActionResult Add(string prodotto, int qta)
+        public IActionResult Add(string prodotto, int quantita)
         {
             List<OrderProduct> newCart;
+            Int32.TryParse(prodotto, out int idproduct);
 
-            Int32.TryParse(prodotto, out int cdprodotto);
-
-            //controlla se c'e' gia' qualche prodotto nel carrello in session:
-            var exCart = HttpContext.Session.GetObjectFromJson<List<OrderProduct>>("Cart");
-            if (exCart == null)
+            //controlla se c'è gia qualcosa nel carrello
+            var existingCart = HttpContext.Session.GetObjectFromJson<List<OrderProduct>>("Cart");
+            //se il carrello non esiste ancora lo crea e aggiunge il primo prodotto
+            if (existingCart == null)
             {
-                //se non esiste, crea nuovo carrello aggiungendo il primo prodotto
                 newCart = new List<OrderProduct>();
-                newCart.Add(new OrderProduct { ProductId = cdprodotto, Quantity = qta });
+                newCart.Add(new OrderProduct { ProductId = idproduct, Quantity = quantita });
             }
-            //se invece esiste gia' un carrello:
+            //se esiste gia il carrello
             else
             {
-                newCart = exCart;
-
-                //cerca se esiste gia' il prodotto nella lista (nel carrello)
-                var prod = newCart.FirstOrDefault(p => p.ProductId == cdprodotto);
+                newCart = existingCart;
+                //controlla se il prodotto è gia presente nel carrello
+                var prod = newCart.FirstOrDefault(p => p.ProductId == idproduct);
+                //se non è gia presente lo aggiunge
                 if (prod == null)
                 {
-                    //se non esiste, lo aggiunge come nuovo
-                    newCart.Add(new OrderProduct { ProductId = cdprodotto, Quantity = qta });
+                    newCart.Add(new OrderProduct { ProductId = idproduct, Quantity = quantita });
                 }
-                //se esiste, incrementa la quantita'
+                //se è gia presente aumenta la quantita
                 else
                 {
                     newCart.Remove(prod);
-                    newCart.Add(new OrderProduct { ProductId = cdprodotto, Quantity = prod.Quantity + qta });
+                    newCart.Add(new OrderProduct { ProductId = idproduct, Quantity = prod.Quantity + quantita });
                 }
             }
 
@@ -88,37 +81,33 @@ namespace ECommerceUpo.Controllers
             return Redirect("/Cart/Index");
         }
 
-        /*
-         * Rimuove prodotto dal carrello
-         */
+        //Rimuove un prodotto da carrello
         [HttpPost]
         public IActionResult Remove(string prodotto)
         {
-            Int32.TryParse(prodotto, out int cdprodotto);
+            Int32.TryParse(prodotto, out int idproduct);
 
             //legge il carrello
             var SessionCart = HttpContext.Session.GetObjectFromJson<List<OrderProduct>>("Cart");
 
             //rimuove il prodotto
-            SessionCart.RemoveAll(x => x.ProductId == cdprodotto);
+            SessionCart.RemoveAll(x => x.ProductId == idproduct);
 
-            //se ora il carrello e' vuoto, elimina oggetto in session
+            //se ora il carrello è vuoto viene eliminato
             if (SessionCart.Count() == 0)
             {
                 HttpContext.Session.Remove("Cart");
             }
             else
             {
-                //se non era l'ultimo prodotto, aggiorna il carrello in session
+                //se non è vuoto aggiorna si aggiorna il carrello
                 HttpContext.Session.SetObjectAsJson("Cart", SessionCart);
             }
 
             return Redirect("/Cart/Index");
         }
 
-        /*
-         * Svuota tutto il carrello
-         */
+        //Svuota il carrello
         [HttpGet]
         public IActionResult Empty()
         {
@@ -127,43 +116,41 @@ namespace ECommerceUpo.Controllers
             return Redirect("/Cart/Index");
         }
 
-        /*
-         * Aggiorna quantita' di un prodotto nel carrello
-         */
+        //Aggiorna le quantita dei prodotti nel carrello
         [HttpPost]
-        public IActionResult Update(string prodotto, int qta)
+        public IActionResult Update(string prodotto, int quantita)
         {
-            Int32.TryParse(prodotto, out int cdprodotto);
+            Int32.TryParse(prodotto, out int idproduct);
 
-            //prende il carrello in session:
+            //legge il carrello in sessione
             var SessionCart = HttpContext.Session.GetObjectFromJson<List<OrderProduct>>("Cart");
             if (SessionCart != null)
             {
-                //cerca il prodotto nella lista
-                var prod = SessionCart.FirstOrDefault(p => p.ProductId == cdprodotto);
+                //cerca il prodotto nel carrello
+                var prod = SessionCart.FirstOrDefault(p => p.ProductId == idproduct);
                 if (prod != null)
                 {
                     //rimuove temporaneamente il prodotto
                     SessionCart.Remove(prod);
 
-                    //se quantita' da aggiornare e' 0, non ri-aggiunge il prodotto al carrello
-                    if (qta != 0)
+                    
+                    if (quantita != 0)
                     {
-                        //altrimenti aggiunge nuovo prodotto nel carrello con la quantita' specificata
-                        SessionCart.Add(new OrderProduct { ProductId = cdprodotto, Quantity = qta });
-                        //salva "nuovo" carrello in session
+                        //se la quantita' non è 0 allora rimette il prodotto nel carrello con la quantita' aggiornata
+                        SessionCart.Add(new OrderProduct { ProductId = idproduct, Quantity = quantita });
+                        //aggiorna il carrello in sessione
                         HttpContext.Session.SetObjectAsJson("Cart", SessionCart);
                     }
                     else
                     {
-                        //se ora il carrello e' vuoto, elimina oggetto in session
+                        //se ora il carrello è vuoto viene eliminato
                         if (SessionCart.Count() == 0)
                         {
                             HttpContext.Session.Remove("Cart");
                         }
                         else
                         {
-                            //se quantita' era 0 e non era l'ultimo prodotto nel carrello, lo ha rimosso e ora aggiorna il carrello
+                            //se quantita' da aggiornare è 0 e il carrello non è vuoto, non rimette il prodotto al carrello e aggiorna il carrello in sessione
                             HttpContext.Session.SetObjectAsJson("Cart", SessionCart);
                         }
                     }

@@ -2,7 +2,13 @@
 @{
     ViewBag.Title = "OrdersListAdmin";
     var ruolo = HttpContextAccessor.HttpContext.Session.GetString("Role");
-    bool count = Model.Count() != 0;
+    bool count = false;
+    var isFiltered = TempData["OrdineFilter"];
+
+    if (Model.Count() != 0)
+    {
+        count = true;
+    }
 
 }
 <div class="container">
@@ -23,14 +29,46 @@
         else
         {
             <h1>Lista Ordini</h1>
+             <!--  Solo se model e' pieno, oppure filtro "sbagliato", ripropone il filtro  -->
+            @if (count || (!count && isFiltered.Equals("True")))
+            {
+                <!-- FILTRI -->
+                <div id="topbar">
+                    <h2><b>Filtra</b></h2><br /><br />
+                    @using (Html.BeginForm("List", "Order", FormMethod.Get))
+                    {
+                        <fieldset>
+                            <table class="table">
+                                <!-- State -->
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td><b>Stato</b></td>
+                                    <td><select name="state">
+                                        <option value=""></option>
+                                        <option value="sent">sent</option>
+                                        <option value="processed">processed</option>
+                                    </select>       </td>                          </tr>
+                            </table>
+                            <br /><br /><br />
+                            <input type="submit" class="botton__search" value="Applica Filtro" id="acquista" />
+                            <input type="button" class="botton__search" value="Annulla Filtro"
+                                   onclick="@("window.location.href='" + @Url.Action("List", "Order", new { clear = "clear" }) + "'");" />
+                        </fieldset>
+                    }
+                </div><br /><br /><br />
+            }
 
-        <!-- Se il model e' vuoto (nessun ordine oppure filtro "sbagliato")  -->
             @if (!count)
             {
                 <div id="desc">
-                    <h2>Nessun Ordine!</h2>
+                    <h2>Nessun ordine!</h2>
                 </div>
             }
+
             else
             {
             <!-- Tabella ordini globali -->

@@ -38,7 +38,7 @@ namespace ECommerceUpo
          * Ordini, Utenti e Prodotti chiamano con parametri diversi e con Strategy diverse
          */
         private static IQueryable<T> GeneralFilter<T>(ref IQueryable<T> Query, ref bool filtered, string clear,
-            string start, string end, string titolo, string stato,  //ordine
+            string start, string end, string titolo, string state,  //ordine
             string username, string ruolo,                          //utente
             string titoloProd, string disp, string sconto,          //prodotto
             Filters<T> Strategy)
@@ -67,6 +67,12 @@ namespace ECommerceUpo
                     Query = Strategy.FilterRole(Query, ruolo);
                     filtered = true;
                 }
+                //Ordine
+                if (state != null && !state.Equals(""))
+                {
+                    Query = Strategy.FilterState(Query, state);
+                    filtered = true;
+                }
 
             }
 
@@ -83,8 +89,24 @@ namespace ECommerceUpo
             Query = GeneralFilter(ref Query, ref filtered, clear, null, null, null, null, username, ruolo, null, null, null,
                 new Filters<User>()
                 {
-                    FilterUser = (query, usrname) => query.Where(utente => utente.Email.Contains(usrname)),
+                    FilterUser = (query, emailuser) => query.Where(utente => utente.Email.Contains(emailuser)),
                     FilterRole = (query, role) => query.Where(utente => utente.Role.Equals(role))
+                });
+
+            return Query;
+        }
+
+        /*
+        * Filtra fra gli ordini sent/processed x admin
+        */
+        public static IQueryable<OrderBean> FilterState(this IQueryable<OrderBean> Query, ref bool filtered, string clear, string state)
+        {
+            filtered = false;
+
+            Query = GeneralFilter(ref Query, ref filtered, clear, null, null, null, state, null, null, null, null, null,
+                new Filters<OrderBean>()
+                {
+                    FilterState = (query, stato) => query.Where(ordine => ordine.State.Equals(stato)),
                 });
 
             return Query;

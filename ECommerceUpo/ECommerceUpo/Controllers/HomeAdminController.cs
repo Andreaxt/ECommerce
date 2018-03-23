@@ -8,9 +8,7 @@ namespace ECommerceUpo.Controllers
 {
     public class HomeAdminController : Controller
     {
-        /*
-         * Passa semplicemente alla view
-         */
+        //non fa niente, va solo alla vista
         public IActionResult Index() => View();
     }
 }
