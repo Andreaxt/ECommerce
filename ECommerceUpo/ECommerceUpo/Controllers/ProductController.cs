@@ -19,59 +19,50 @@ namespace ECommerceUpo.Controllers
 
         protected override Func<Product, int, bool> FilterById => (e, id) => e.ProductId == id;
 
-        /*
-         * Modifica informazioni sul prodotto (SOLO ADMIN)
-         */
+        //Per utenti admin, si puo modificare prezzo/sconto/disponibilita di un prodotto
         [HttpPost]
         public async Task<IActionResult> Update(string previousUrl, string product, string price, string discount, string disp)
         {
             Product ToUpdate;
 
-            //riceve parametri dal form: codice prodotto, nuovo prezzo nuovo sconto, nuova disponibilita'
+            //prende i parametri dal form
             Int32.TryParse(product, out int ProductId);
             double.TryParse(price, out double Price);
             double.TryParse(discount, out double Discount);
 
-            //cerca nel db il prodotto da modificare
+            //query che restituisce il prodotto nel db con id corrispondente a quello del form
             var query = from products in Context.Product
                         where products.ProductId.Equals(ProductId)
                         select products;
 
-            //prende il primo elemento (l'unico) della query
+            //prende il primo e unico elemento restituito dalla query
             ToUpdate = query.First();
 
-            //modifica tutte le informazioni (solo se ci sono stati cambiamenti)
-            //i campi del form non possono essere lasciati vuoti e i campi numerici devono contenere numeri, pertanto
-            //si suppone che, a questo punto, i dati inseriti siano validi
+            //se prezzo/sconto/disponibilita sono cambiati allora vengono modificati nel record del db, si devono riempire tutti i campi
             if ((!(ToUpdate.Price == Price)) || (!(ToUpdate.Discount == Discount)) || (!(ToUpdate.Disp.Equals(disp))))
             {
                 ToUpdate.Price = Price;
                 ToUpdate.Discount = Discount;
                 ToUpdate.Disp = disp;
 
-                //rende persistenti le modifiche
+                //modifica il record del db
                 await base.Update(ToUpdate);
             }
 
             return Redirect("/Product/List");
         }
 
-        /*
-         * Redirigono nelle pagine di elenco di tutti i prodotti
-         */
 
-        //solo per admin: pagina con i prodotti e pulsanti MODIFICA PRODOTTO
+        //lista prodotti per admin
         public async Task<IActionResult> List() => View(await Entities.ToListAsync());
 
-        //pagina con i prodotti e pulsante aggiungi per USER, no pulsanti per ADMIN
+        //lista prodotti per user
         public async Task<IActionResult> Index() => View(await Entities.ToListAsync());
 
-        /*
-         * Seleziona uno specifico prodotto e tutte le sue informazioni (codice prodotto nell'URL)
-         */
+        //Mostra i dettagli di un prodotto
         public async Task<IActionResult> ProductDetails(int productId)
         {
-            //prende il prodotto che ha codice corrispondente al parametro 
+            //prende il prodotto con id corrispondente al parametro 
             var query = from products in Context.Product
                         where products.ProductId.Equals(productId)
                         select products;
@@ -79,9 +70,7 @@ namespace ECommerceUpo.Controllers
             return View(await query.ToListAsync());
         }
 
-        /*
-         * Seleziona l'insieme di prodotti il cui titolo o la cui descrizione contiene la stringa in input
-         */
+        //Elenca i prodotti il cui titolo o descrizione contengono la stringa cercata
         [HttpPost]
         public async Task<IActionResult> Search(string input)
         {
@@ -91,31 +80,6 @@ namespace ECommerceUpo.Controllers
 
             return View(await query.ToListAsync());
         }
-
-        /*
-         * Ricerca avanzata: usa lo stesso filtro di ordini e utenti, applicato ai prodotti.
-         * Filtra, fra tutti i prodotti, quelli che rispecchiano le caratteristiche indicate in input (titolo, prezzo, sconto, disponibilita')
-         */
-        public async Task<IActionResult> Advanced(string apply, string clear, string title, string priceoperator, string price,
-            string discount, string disp)
-        {
-            //seleziona tutti i prodotti
-            var Query = from products in Context.Product
-                        select products;
-
-            bool filtered = false;
-
-            //FILTRO: custom IQueryable extension method
-            //Query = Query.FilterProd(ref filtered, clear, title, disp, priceoperator, price, discount);
-
-            //per sapere se e' la prima volta che si apre a pagina o se si sta applicando un filtro
-            if (apply != null)
-            {
-                filtered = true;
-            }
-            TempData["AdvancedFilter"] = filtered.ToString();
-
-            return View(await Query.ToListAsync());
-        }
+       
     }
 }
