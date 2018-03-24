@@ -17,9 +17,9 @@ namespace ECommerceUpo.Controllers
             //query che da come risultato i top 10 più venduti dell'ultimo mese, prende solo 1 volta il prodotto con stesso id 
             var query = (from products in context.Product
                          join orderProducts in context.OrderProduct on products.ProductId equals orderProducts.ProductId
-                         join orders in context.Order on orderProducts.OrderId equals orders.OrderId
+                         join orders in context.OrderTable on orderProducts.OrderId equals orders.OrderId
                          where orders.Data > DateTime.Now.AddMonths(-1)
-                         orderby orderProducts.Quantity
+                         orderby orderProducts.Quantity 
                          select products)
                          .GroupBy(p => p.ProductId).Select(g => g.First()).Take(10);
          

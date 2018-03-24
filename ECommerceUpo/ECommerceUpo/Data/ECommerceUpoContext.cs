@@ -15,7 +15,7 @@ namespace ECommerceUpo.Data
         public ECommerceUpoContext() { }
 
         //entità del db
-        public virtual DbSet<Order> Order { get; set; }
+        public virtual DbSet<OrderTable> OrderTable { get; set; }
         public virtual DbSet<OrderProduct> OrderProduct { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<User> User { get; set; }
@@ -31,7 +31,7 @@ namespace ECommerceUpo.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Order>(entity =>
+            modelBuilder.Entity<OrderTable>(entity =>
             {
                 entity.HasKey(e => e.OrderId)
                     .HasName("PK_Order");
@@ -51,7 +51,7 @@ namespace ECommerceUpo.Data
                 entity.Property(e => e.TotalPrice).HasColumnName("totalPrice");
 
                 entity.HasOne(d => d.UserIdNavigation)
-                    .WithMany(p => p.Order)
+                    .WithMany(p => p.OrderTable)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Order_User");

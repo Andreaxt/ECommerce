@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace ECommerceUpo.Models
 {
-    public class Order
+    public class OrderTable
     {
-        public Order()
+        public OrderTable()
         {
             OrderProduct = new HashSet<OrderProduct>();
         }

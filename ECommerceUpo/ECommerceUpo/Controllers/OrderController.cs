@@ -11,15 +11,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace ECommerceUpo.Controllers
 {
-    public class OrderController : CrudController<ECommerceUpoContext, int, Order>
+    public class OrderController : CrudController<ECommerceUpoContext, int, OrderTable>
     {
         public OrderController(ECommerceUpoContext context, ILogger<OrderController> logger) : base(context, logger)
         {
         }
 
-        protected override DbSet<Order> Entities => Context.Order;
+        protected override DbSet<OrderTable> Entities => Context.OrderTable;
 
-        protected override Func<Order, int, bool> FilterById => (e, id) => e.OrderId == id;
+        protected override Func<OrderTable, int, bool> FilterById => (e, id) => e.OrderId == id;
 
         //crea un nuovo ordine
         [HttpGet]
@@ -69,7 +69,7 @@ namespace ECommerceUpo.Controllers
             }
 
             //associo ordine all'utente
-            Order ordine = new Order
+            OrderTable ordine = new OrderTable
             {
                 UserId = utente,
                 State = "sent",                 
@@ -93,10 +93,10 @@ namespace ECommerceUpo.Controllers
         {
             //prende i parametri dal form
             Int32.TryParse(ordine, out int OrderId);
-            Order ToUpdate;
+            OrderTable ToUpdate;
 
             //query per trovare l'ordine corrispondete al form
-            var query = from ordini in Context.Order
+            var query = from ordini in Context.OrderTable
                         where ordini.OrderId.Equals(OrderId)
                         select ordini;
 
@@ -151,7 +151,7 @@ namespace ECommerceUpo.Controllers
         //Query che restituisce tutti gli ordini degli User
         private IQueryable<OrderBean> AdminQuery()
         {
-            var q = from ordini in Context.Order
+            var q = from ordini in Context.OrderTable
                     join utenti in Context.User on ordini.UserId equals utenti.UserId
                     join ordineProdotto in Context.OrderProduct on ordini.OrderId equals ordineProdotto.OrderId
                     join prodotti in Context.Product on ordineProdotto.ProductId equals prodotti.ProductId
@@ -175,7 +175,7 @@ namespace ECommerceUpo.Controllers
         private IQueryable<OrderBean> UserQuery(int UserId)
         {
            
-            var q = from ordini in Context.Order
+            var q = from ordini in Context.OrderTable
                     join utenti in Context.User on ordini.UserId equals utenti.UserId
                     join ordineProdotto in Context.OrderProduct on ordini.OrderId equals ordineProdotto.OrderId
                     join prodotti in Context.Product on ordineProdotto.ProductId equals prodotti.ProductId

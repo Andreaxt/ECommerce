@@ -11,7 +11,7 @@ namespace ECommerceUpo.Models
         public int ProductId { get; set; }
         public int Quantity { get; set; }
 
-        public virtual Order OrderIdNavigation { get; set; }
+        public virtual OrderTable OrderIdNavigation { get; set; }
         public virtual Product ProductIdNavigation { get; set; }
     }
 }

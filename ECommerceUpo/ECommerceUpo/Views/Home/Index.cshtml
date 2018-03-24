@@ -47,7 +47,7 @@
                 }
                 else
                 {
-                    <img src="~/img/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
+                    <img src="~/Image/noimage.jpg" alt="NO IMAGE" width="200" height="200" />
                 }
                 <h2 align="center">@Html.ActionLink(s.Title, "ProductDetails", "Product", new { s.ProductId }, new { @class = "linkprod" })</h2>
                 @if ((role == null) || ((role != null) && role.Equals("user")))

@@ -7,7 +7,7 @@ namespace ECommerceUpo.Models
     {
         public User()
         {
-            Order = new HashSet<Order>();
+            OrderTable = new HashSet<OrderTable>();
         }
 
         public int UserId { get; set; }
@@ -15,6 +15,6 @@ namespace ECommerceUpo.Models
         public string Password { get; set; }
         public string Role { get; set; }
 
-        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<OrderTable> OrderTable { get; set; }
     }
 }
