@@ -233,7 +233,7 @@ INSERT INTO [dbo].[User]
            ('john@gmail.com', 'ciao', 'admin')
 GO
 
-INSERT INTO [dbo].[Order]
+INSERT INTO [dbo].[OrderTable]
            ([UserId]
            ,[data]
            ,[totalPrice]
@@ -265,7 +265,7 @@ INSERT INTO [dbo].[OrderProduct]
            ,1)
 GO
 
-INSERT INTO [dbo].[Order]
+INSERT INTO [dbo].[OrderTable]
            ([UserId]
            ,[data]
            ,[totalPrice]
@@ -297,7 +297,7 @@ INSERT INTO [dbo].[OrderProduct]
            ,1)
 GO
 
-INSERT INTO [dbo].[Order]
+INSERT INTO [dbo].[OrderTable]
            ([UserId]
            ,[data]
            ,[totalPrice]
@@ -329,7 +329,7 @@ INSERT INTO [dbo].[OrderProduct]
            ,1)
 GO
 
-INSERT INTO [dbo].[Order]
+INSERT INTO [dbo].[OrderTable]
            ([UserId]
            ,[data]
            ,[totalPrice]
@@ -361,7 +361,7 @@ INSERT INTO [dbo].[OrderProduct]
            ,1)
 GO
 
-INSERT INTO [dbo].[Order]
+INSERT INTO [dbo].[OrderTable]
            ([UserId]
            ,[data]
            ,[totalPrice]

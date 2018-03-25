@@ -1,0 +1,75 @@
+GO
+CREATE DATABASE ECommerceUpo
+GO
+
+USE [ECommerceUpo]
+GO
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE[dbo].[OrderProduct](
+        [OrderId][int] NOT NULL,
+        [ProductId][int] NOT NULL,
+        [Quantity][int] NOT NULL,
+CONSTRAINT[PK_OrderProduct] PRIMARY KEY CLUSTERED
+(
+        [OrderId]ASC,
+        [ProductId]ASC
+)
+)
+CREATE TABLE[dbo].[Product](
+        [ProductId][int]IDENTITY(1,1) NOT NULL,
+        [title][varchar](255)NOT NULL,
+        [description][text]NOT NULL,
+        [price][float]NOT NULL,
+        [discount][float]NOT NULL,
+        [image][varbinary](max)NULL,
+        [disp][varchar](10)NOT NULL,
+CONSTRAINT[PK_Product]PRIMARY KEY CLUSTERED
+(
+        [ProductId]ASC
+)
+)
+CREATE TABLE[dbo].[OrderTable](
+        [OrderId][int]IDENTITY(1,1)NOT NULL,
+        [UserId][int]NOT NULL,
+        [data][date]NOT NULL,
+        [totalPrice][float]NOT NULL,
+        [state][varchar](10),
+CONSTRAINT[PK_Order]PRIMARY KEY CLUSTERED
+(
+        [OrderId]ASC
+)
+)
+CREATE TABLE[dbo].[User](
+[UserId][int]IDENTITY(1,1)NOT NULL,
+[email][varchar](50)NOT NULL UNIQUE,
+[password][varchar](50)NOT NULL,
+[role][varchar](10)NULL,
+ 
+CONSTRAINT[PK_User]PRIMARY KEY CLUSTERED
+(
+[UserId]ASC
+)
+)
+
+ALTER TABLE[dbo].[OrderProduct]WITH CHECK ADD CONSTRAINT[FK_OrderProduct_Order]FOREIGN KEY([OrderId])
+REFERENCES[dbo].[OrderTable]([OrderId])
+GO
+ 
+ALTER TABLE[dbo].[OrderProduct]CHECK CONSTRAINT[FK_OrderProduct_Order]
+GO
+ 
+ALTER TABLE[dbo].[OrderProduct]WITH CHECK ADD CONSTRAINT[FK_OrderProduct_Product]FOREIGN KEY([ProductId])
+REFERENCES[dbo].[Product]([ProductId])
+GO
+ 
+ALTER TABLE[dbo].[OrderProduct]CHECK CONSTRAINT[FK_OrderProduct_Product]
+GO
